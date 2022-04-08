@@ -1,0 +1,5 @@
+https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021 - уровень жизни в странах
+https://tyulyagin.ru/ratings/rejting-stran-mira-po-urovnyu-zhizni-2021.html  - дополнительная ссылка об уровнях жизни
+Канада, США, Турция, Греция, Дания - мои страны
+https://kudago.com/spb/list/33-luchshih-muzeya-peterburga/
+https://tonkosti.ru/Музеи_Санкт-Петербурга - в data frame : название музея, его адрес и ссылку для перехода
