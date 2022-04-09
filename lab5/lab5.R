@@ -16,3 +16,5 @@ museums_names
 museums_adress
 museums_urls <- unique(museums_urls) # Удалили повторения
 
+full_museums_address <- paste0("https://tonkosti.ru", museums_urls)
+
