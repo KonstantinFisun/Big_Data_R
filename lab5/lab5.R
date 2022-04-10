@@ -1,6 +1,31 @@
 install.packages("rvest")
 library(rvest)
 
+url_country_rating <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021")
+
+# select_country <- ".cityOrCountryInIndicesTable" # Название класса хранящий имена стран
+select_rat <- "td" # Таблица рейтинга
+
+#country_names <- html_nodes(url_country_rating, select_country) %>% html_text() %>% as.array() # Считали имена стран с таблицы
+country_rat <- html_nodes(url_country_rating, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
+country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
+contry_rat <- matrix(country_rat, ncol = 11, nrow = 83, byrow = TRUE) # Создание матрицы
+
+contry_rat <- contry_rat[,-c(11)] # Удаление пустого столбца
+
+# Создание базы
+rating <- data.frame(contry_rat)
+# Имена столбцов
+names(rating) <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
+                              "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
+                              "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
+
+
+# Канада, США, Турция, Греция, Дания - мои страны
+# Составим таблицу из моих стран
+rating_my <- rating[c(2,15,20,43,45),]
+
+# Задание с музеем
 # Считывание всех музеев со страницы
 url_museum <- read_html("https://tonkosti.ru/Музеи_Санкт-Петербурга") # Считали ссылку
 
