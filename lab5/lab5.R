@@ -20,15 +20,25 @@ url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/ran
 url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
 url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
-y <- c() # Создание пустого вектора
+
+all_rating <- c() # Создание пустого вектора
 # Идем по годам
 for (i in 2014:2022){
-  iter <- paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i))
-  all_url <- c(y,iter)
+  iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i)))
+  
+  country_rat <- html_nodes(iter, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
+  country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
+  contry_rat <- matrix(country_rat, ncol = 11, nrow = 60, byrow = TRUE) # Создание матрицы
+  
+  contry_rat <- contry_rat[,-c(11)] # Удаление пустого столбца
+  
+  # Создание базы
+  rating <- data.frame(contry_rat)
+  
+  all_rating <- c(all_rating,rating)
 }
 
-
-all_url = c(url_country_rating_2022,url_country_rating_2021,url_country_rating_2020,url_country_rating_2022,url_country_rating_2022)
+all_rating
 
 country_rat_2022 <- html_nodes(url_country_rating_2022, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
 country_rat_2022 <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
