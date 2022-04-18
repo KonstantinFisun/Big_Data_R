@@ -95,16 +95,33 @@ legend('topright', c('США', 'Великобритания', "Китай", "Россия", "Германия", "Яп
 
 
 # Призовые места мужчин и женщин последние 5 олимпиад по акробатике
+# Призовые места мужчин и женщин за все вреия
+men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
+                            sheetIndex = 1)
 
+rownames(men_women_acro)<-men_women_acro[,1] # Сделали первый столбец именами
 
-# Столбчатая диаграмма
-barplot(data.matrix(menWomen), beside=TRUE,
-        col=topo.colors(5),
-        main="Призовые места мужчин за последнии 5 лет по акробатике",
-        ylab="Число медалей", ylim = c(0, 7))
+men <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "Мужчины") # Выбрали мужчин по последним 6 олимпиадам по акробатике
 
-legend('topright', rownames(menWomen), pch=15,
-       col = topo.colors(5),
-       y.intersp = 0.4, text.width = 1.5)
+women <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "Женщины") # Выбрали женщин по последним 6 олимпиадам по акробатике
+
+men_women_acro<-men_women_acro[,-1] #удалили первый столбец
+
+# Столбчатая диаграмма по мужчинам
+barplot(men[,1], 
+        col=rainbow(6),
+        main="Призовые места мужчин за последнии 6 олимпиад по акробатике",
+        ylab="Число медалей",
+        xlab = "Олимпиады",
+        names.arg = rownames(men), cex.axis = 2, cex.names = 0.8)
+
+# Столбчатая диаграмма по мужчинам
+barplot(women[,1], 
+        col=rainbow(6),
+        main="Призовые места мужчин за последнии 6 олимпиад по акробатике",
+        ylab="Число медалей",
+        xlab = "Олимпиады",
+        names.arg = rownames(women), cex.axis = 2, cex.names = 0.8)
+
 
 
