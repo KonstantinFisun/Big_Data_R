@@ -14,14 +14,14 @@ library(rvest)
 select_rat <- "td" # Таблица рейтинга
 
 # Ссылки на определенные года
-url_country_rating_2022 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2022") # 22
-url_country_rating_2021 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021") # 21
-url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2020") # 20
-url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
-url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
+# url_country_rating_2022 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2022") # 22
+# url_country_rating_2021 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021") # 21
+# url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2020") # 20
+# url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
+# url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
 
-all_rating <- c() # Создание пустого вектора
+all_rating <- list() # Создание пустого вектора
 # Идем по годам
 for (i in 2014:2022){
   iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i)))
@@ -35,10 +35,14 @@ for (i in 2014:2022){
   # Создание базы
   rating <- data.frame(contry_rat)
   
-  all_rating <- c(all_rating,rating)
+  names(rating) <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
+                     "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
+                     "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
+  
+  all_rating[[length(all_rating)+1]] = rating
 }
 
-all_rating
+
 
 country_rat_2022 <- html_nodes(url_country_rating_2022, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
 country_rat_2022 <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
