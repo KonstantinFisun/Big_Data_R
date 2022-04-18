@@ -20,6 +20,13 @@ url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/ran
 url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
 url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
+y <- c() # Создание пустого вектора
+# Идем по годам
+for (i in 2014:2022){
+  iter <- paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i))
+  all_url <- c(y,iter)
+}
+
 
 all_url = c(url_country_rating_2022,url_country_rating_2021,url_country_rating_2020,url_country_rating_2022,url_country_rating_2022)
 
