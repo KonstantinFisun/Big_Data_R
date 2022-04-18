@@ -21,9 +21,11 @@ select_rat <- "td" # Таблица рейтинга
 # url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
 
-all_rating <- list() # Создание пустого вектора
+all_rating <- list() # Создание пустоq список
+years <- c() # Создали пустой вектор хранящий года
 # Идем по годам
 for (i in 2014:2022){
+  years <- c(years, toString(i))
   iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i)))
   
   country_rat <- html_nodes(iter, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
@@ -42,32 +44,54 @@ for (i in 2014:2022){
   all_rating[[length(all_rating)+1]] = rating
 }
 
-
-
-country_rat_2022 <- html_nodes(url_country_rating_2022, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
-country_rat_2022 <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
-contry_rat_2022 <- matrix(country_rat, ncol = 11, nrow = 83, byrow = TRUE) # Создание матрицы
-
-
-
-contry_rat_20 <- contry_rat[,-c(11)] # Удаление пустого столбца
-
-# Создание базы
-rating <- data.frame(contry_rat)
-# Имена столбцов
-names(rating) <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
-                              "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
-                              "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
-
+names(all_rating) <- years # Присвоили года
 
 
 
 # Канада, США, Турция, Греция, Дания - мои страны
-# Составим таблицу из моих стран
-rating_my <- rating[c(2,15,20,43,45),]
+my_country <- c("Canada", "United States", "Turkey", "Greece", "Denmark")
 
 
 # Сравнение стран по Индексу жизни за последнии 5 лет
+
+# Сбор данных
+
+index_life <- list() # список индексов по каждой стране
+for(country in my_country){
+  iter <- c()
+  for (year in 2014:2022){
+    iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == country,2])# Выбрали индекс качества жизни определенной страны
+  }
+  index_life[[length(index_life)+1]] = iter
+  
+}
+names(index_life) <- my_country # Присвоили имена стран
+
+# График изменения индекса качества жизни с 2014 года у каждой из 5 стран
+plot(years,index_life[[1]], type='o', lty=1, pch=20, col='brown', cex = 3,
+     main='Тенденции изменения качества жизни',
+     xlab='Года',
+     ylab='Индекс качества жизни', ylim = c(80,230))
+lines(years, index_life[[2]], type='o', lty=1, pch=10, col='green',cex = 3,)
+lines(years, index_life[[3]], type='o', lty=1, pch=15, col='red',cex = 3)
+lines(years, index_life[[4]], type='o', lty=1, pch=17, col='blue',cex = 3)
+lines(years, index_life[[5]], type='o', lty=1, pch=18, col='black',cex = 3)
+
+
+legend('topright', my_country,
+       pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
+       col=c('brown', 'green', 'red', 'blue', 'black'),
+       y.intersp = 1, text.width = 2)
+
+
+
+
+
+
+
+
+
+
 
 
 
