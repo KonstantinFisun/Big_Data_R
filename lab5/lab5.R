@@ -1,4 +1,3 @@
-install.packages("rvest")
 library(rvest)
 
 # url_country_rating <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021")
@@ -20,6 +19,9 @@ select_rat <- "td" # Таблица рейтинга
 # url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
 # url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
+names_index <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
+                "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
+                "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
 
 all_rating <- list() # Создание пустоq список
 years <- c() # Создали пустой вектор хранящий года
@@ -37,9 +39,7 @@ for (i in 2014:2022){
   # Создание базы
   rating <- data.frame(contry_rat)
   
-  names(rating) <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
-                     "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
-                     "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
+  names(rating) <- names_index
   
   all_rating[[length(all_rating)+1]] = rating
 }
@@ -84,7 +84,30 @@ legend('topright', my_country,
        y.intersp = 1, text.width = 2)
 
 
+# График изменения индексов у Канады с 2014 года
+index_canada <- c()
+for (year in 2016:2022){
+  iter <- c()
+  for (i in 2:10){
+    iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == "Canada",i])# Выбрали индекс качества жизни определенной страны
+  }
+  index_canada <- c(index_canada, iter)
+}
 
+index_canada <- data.frame(matrix(index_canada,ncol = 7))
+colnames(index_canada) <- years[c(-1,-2)]
+rownames(index_canada) <- names_index[-1]
+
+
+index_canada <- lapply(index_canada, function(x) as.numeric(gsub("^.*\\.", "", x)))
+
+
+barplot(index_canada, beside = TRUE,col = rainbow(9))
+
+legend('topright', names_index[-1], col = rainbow(9),
+       y.intersp = 1, text.width = 40)
+
+# Один год, все страны все индексы
 
 
 
