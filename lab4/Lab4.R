@@ -1,3 +1,5 @@
+library("xlsx")
+
 # Германия - Акробатика
 # Места 1-8
 germany_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/1-8_Ger.xlsx", 
@@ -15,7 +17,7 @@ default <- par(no.readonly = TRUE) # создает копию текущих параметров
 par(mar = c(5, 10, 4, 4)) # размеры полей низ лево вверх право
 
 barplot(place_1_8, names.arg = olympics, horiz = TRUE, main="Диаграмма числа 1-8 мест сборной Германии по акробатики",cex.axis = 2,
-        xlab="Число мест", las=1)
+        xlab="Число мест", las=1, col=rainbow(6))
 par(default)
 
 # Выбрали первые места из таблицы
@@ -67,7 +69,7 @@ lines(years, firstPlaces[,7], type='o', lty=1, pch=13, col='purple',cex = 3,)
 legend('topright', colnames(firstPlaces),
        pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
        col=c('brown', 'green', 'red', 'blue', 'black', 'yellow', 'purple'),
-       y.intersp = 1, text.width = 2)
+       y.intersp = 0.6, text.width = 2)
 
 # 
 # Призовые места последние 4 летние олимпиады
@@ -90,11 +92,12 @@ lines(years, prizePlaces[,7], type='o', lty=1, pch=13, col='purple',cex = 3)
 legend('topright', c('США', 'Великобритания', "Китай", "Россия", "Германия", "Япония", "Франция"),
        pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
        col=c('brown', 'green', 'red', 'blue', 'black', 'yellow', 'purple'),
-       y.intersp = 1, text.width = 2)
+       y.intersp = 0.8, text.width = 2)
 
 
 
 # Призовые места мужчин и женщин последние 5 олимпиад по акробатике
+
 # Призовые места мужчин и женщин за все вреия
 men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
                             sheetIndex = 1)
@@ -115,7 +118,7 @@ barplot(men[,1],
         xlab = "Олимпиады",
         names.arg = rownames(men), cex.axis = 2, cex.names = 0.8)
 
-# Столбчатая диаграмма по мужчинам
+# Столбчатая диаграмма по женщинам
 barplot(women[,1], 
         col=rainbow(6),
         main="Призовые места мужчин за последнии 6 олимпиад по акробатике",
