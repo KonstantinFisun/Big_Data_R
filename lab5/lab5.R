@@ -51,10 +51,10 @@ for(country in my_country){
 names(index_life) <- my_country # Присвоили имена стран
 
 # График изменения индекса качества жизни с 2014 года у каждой из 5 стран
-plot(years,index_life[[1]], type='o', lty=1, pch=20, col='brown', cex = 3,
+plot(years,index_life[[1]], type='o', lty=1, pch=20, col='brown', cex = 3, cex.axis = 2, cex.lab = 1.5,
      main='Тенденции изменения качества жизни',
      xlab='Года',
-     ylab='Индекс качества жизни', ylim = c(80,230))
+     ylab='Индекс качества жизни', ylim = c(50,230))
 lines(years, index_life[[2]], type='o', lty=1, pch=10, col='green',cex = 3,)
 lines(years, index_life[[3]], type='o', lty=1, pch=15, col='red',cex = 3)
 lines(years, index_life[[4]], type='o', lty=1, pch=17, col='blue',cex = 3)
@@ -64,7 +64,7 @@ lines(years, index_life[[5]], type='o', lty=1, pch=18, col='black',cex = 3)
 legend('topright', my_country,
        pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
        col=c('brown', 'green', 'red', 'blue', 'black'),
-       y.intersp = 1, text.width = 2)
+       y.intersp = 0.8, text.width = 1)
 #-------------------------------------------------------------------------------
 
 # График изменения индексов у Канады с 2014 года
@@ -87,7 +87,7 @@ rownames(index_canada) <- years
 
 
 # График изменения индексов у Канады с 2014 года
-barplot(data.matrix(index_canada),col = rainbow(9), beside = TRUE, ylim=c(0,200), cex.names = 0.54,
+barplot(data.matrix(index_canada),col = rainbow(9), beside = TRUE, ylim=c(0,200), cex.names = 0.85,
         main = "График изменения индексов у Канады с 2014 года", ylab = "Индекс") #beside = TRUE
 
 legend('topright', rownames(index_canada), col = rainbow(9),
@@ -118,7 +118,7 @@ index_country <- sapply(index_country, as.numeric) # Сделали из charact
 
 
 # График
-barplot(data.matrix(index_country),col = rainbow(5), beside = TRUE, ylim=c(0,200), cex.names = 0.54,
+barplot(data.matrix(index_country),col = rainbow(5), beside = TRUE, ylim=c(0,200), cex.names = 0.85,
         main = "График сравнения индексов стран за 2022 год", ylab = "Индекс") #beside = TRUE
 
 legend('topright', my_country, col = rainbow(5),
