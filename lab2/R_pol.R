@@ -1,6 +1,6 @@
-x<-c(174,162,188,192,165,168,172) #äàííûå î ðîñòå ñåìè ñîòðóäíèêîâ íåáîëüøîé êîìïàíèè
-str(x) # Ôóíêöèÿ str() âûâîäèò äàííûå îá îáúåêòàõ
-pol<-c("male","female","male","male","female","male","male") #Ôîðìèðóåì âåêòîð "ïîë" äëÿ ñîòðóäíèêîâ ôèðìû
+x<-c(174,162,188,192,165,168,172) #Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾ Ñ€Ð¾ÑÑ‚Ðµ ÑÐµÐ¼Ð¸ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð² Ð½ÐµÐ±Ð¾Ð»ÑŒÑˆÐ¾Ð¹ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¸
+str(x) # Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ str() Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ð± Ð¾Ð±ÑŠÐµÐºÑ‚Ð°Ñ…
+pol<-c("male","female","male","male","female","male","male") #Ð¤Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð²ÐµÐºÑ‚Ð¾Ñ€ "Ð¿Ð¾Ð»" Ð´Ð»Ñ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð² Ñ„Ð¸Ñ€Ð¼Ñ‹
 is.character(pol)
 is.factor(pol)
 is.vector(pol)
@@ -10,14 +10,14 @@ pol.f<-factor(pol)
 is.factor(pol.f)
 pol.f
 plot(pol.f)
-#Âåêòîð âåñà
+#Ð’ÐµÐºÑ‚Ð¾Ñ€ Ð²ÐµÑÐ°
 w<-c(69,68,93,87,59,82,72)
-#Ïîñòðîåíèå ãðàôèêà
+#ÐŸÐ¾ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ðµ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ°
 plot(x,w,pch=as.numeric(pol.f),col=as.numeric(pol.f)) 
 legend("topleft",pch=1:2,col=1:2,legend=levels(pol.f))
 plot(x,w,pch=(7:8), col=c("magenta","green"))
 legend("topleft",pch=7:8, col=c("magenta","green"),legend=levels(pol.f))
 
 
-h <- ñ(8, 10, NA, NA, 8, NA, 8)
+h <- Ñ(8, 10, NA, NA, 8, NA, 8)
 mean(h)
