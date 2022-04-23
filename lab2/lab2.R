@@ -1,26 +1,26 @@
 install.packages("xlsx", dep = T)
 library("xlsx")
 
-food <- read.xlsx("C:/Users/kosty/OneDrive/Рабочий стол/3 курс 6 семест/Обработка больших данных/Practical R/lab2/food.xlsx", sheetIndex = 1)
+food <- read.xlsx("C:/Users/kosty/OneDrive/Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»/3 РєСѓСЂСЃ 6 СЃРµРјРµСЃС‚/РћР±СЂР°Р±РѕС‚РєР° Р±РѕР»СЊС€РёС… РґР°РЅРЅС‹С…/Practical R/lab2/food.xlsx", sheetIndex = 1)
 rownames(food)<-food[,1]
 name <- food[,1]
 
-food<-food[,-1] #удаляем имена
+food<-food[,-1] #СѓРґР°Р»СЏРµРј РёРјРµРЅР°
 food_name<- colnames(food)
-colMax <- function(data) sapply(data, max, na.rm = TRUE) # Функция макс в каждом столбце
-colMin <- function(data) sapply(data, min, na.rm = TRUE) # Функция мин в каждом столбце
-colMean <- function(data) sapply(data, mean, na.rm = TRUE) # Функция среднего в каждом столбце
+colMax <- function(data) sapply(data, max, na.rm = TRUE) # Р¤СѓРЅРєС†РёСЏ РјР°РєСЃ РІ РєР°Р¶РґРѕРј СЃС‚РѕР»Р±С†Рµ
+colMin <- function(data) sapply(data, min, na.rm = TRUE) # Р¤СѓРЅРєС†РёСЏ РјРёРЅ РІ РєР°Р¶РґРѕРј СЃС‚РѕР»Р±С†Рµ
+colMean <- function(data) sapply(data, mean, na.rm = TRUE) # Р¤СѓРЅРєС†РёСЏ СЃСЂРµРґРЅРµРіРѕ РІ РєР°Р¶РґРѕРј СЃС‚РѕР»Р±С†Рµ
 
-# Функция моды
+# Р¤СѓРЅРєС†РёСЏ РјРѕРґС‹
 getmode <- function(vector) {
-  uniqv <- unique(vector) # Находим уникальные элементы вектора
-  uniqv[which.max(tabulate(match(vector, uniqv)))] # Каждому элементу ставим соответствие его повторений
+  uniqv <- unique(vector) # РќР°С…РѕРґРёРј СѓРЅРёРєР°Р»СЊРЅС‹Рµ СЌР»РµРјРµРЅС‚С‹ РІРµРєС‚РѕСЂР°
+  uniqv[which.max(tabulate(match(vector, uniqv)))] # РљР°Р¶РґРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ СЃС‚Р°РІРёРј СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РµРіРѕ РїРѕРІС‚РѕСЂРµРЅРёР№
 }
 
 
-colMax(food) # Максимальная оценка
-colMin(food) # Минимальная оценка
-colMean(food) # Средняя оценка
+colMax(food) # РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РѕС†РµРЅРєР°
+colMin(food) # РњРёРЅРёРјР°Р»СЊРЅР°СЏ РѕС†РµРЅРєР°
+colMean(food) # РЎСЂРµРґРЅСЏСЏ РѕС†РµРЅРєР°
 
 
 
@@ -33,7 +33,7 @@ for(i in 1:ncol(food)){
 
 count_score_high
 
-rbind(food_name, count_score_high) # количество людей, отдавших предпочтение >7
+rbind(food_name, count_score_high) # РєРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№, РѕС‚РґР°РІС€РёС… РїСЂРµРґРїРѕС‡С‚РµРЅРёРµ >7
 
 
 count_score_low <- vector()
@@ -44,108 +44,108 @@ for(i in 1:ncol(food)){
 
 count_score_low
 
-rbind(food_name, count_score_low) # количество людей, отдавших предпочтение <3
+rbind(food_name, count_score_low) # РєРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋРґРµР№, РѕС‚РґР°РІС€РёС… РїСЂРµРґРїРѕС‡С‚РµРЅРёРµ <3
 
-sort(colMean(food),decreasing = TRUE) # рейтинг
+sort(colMean(food),decreasing = TRUE) # СЂРµР№С‚РёРЅРі
 
 
-# столбчатая диаграмма оценок 
+# СЃС‚РѕР»Р±С‡Р°С‚Р°СЏ РґРёР°РіСЂР°РјРјР° РѕС†РµРЅРѕРє 
 barplot(height = colMean(food),col = "steelblue",
-        xlab = "Еда",
-        ylab = "Средняя оценка"
+        xlab = "Р•РґР°",
+        ylab = "РЎСЂРµРґРЅСЏСЏ РѕС†РµРЅРєР°"
 )
 
-# Гистограмма средних оценок
+# Р“РёСЃС‚РѕРіСЂР°РјРјР° СЃСЂРµРґРЅРёС… РѕС†РµРЅРѕРє
 hist(colMean(food))
 
 boxplot(colMean(food),
-        main = "Среднии оценки",
-        ylab = "Средняя оценка",
+        main = "РЎСЂРµРґРЅРёРё РѕС†РµРЅРєРё",
+        ylab = "РЎСЂРµРґРЅСЏСЏ РѕС†РµРЅРєР°",
         col=rainbow(10))
 
 
 boxplot(food[,c(1:10)],
-        main = "Оценки еды",
-        xlab = "Блюда",
-        ylab = "Оценка",
+        main = "РћС†РµРЅРєРё РµРґС‹",
+        xlab = "Р‘Р»СЋРґР°",
+        ylab = "РћС†РµРЅРєР°",
         col = rainbow(10))
 
-# Гистограмма количество оценок
+# Р“РёСЃС‚РѕРіСЂР°РјРјР° РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС†РµРЅРѕРє
 hist(data.matrix(na.omit(food)),
      breaks = 10,
-     main = "Гистограмма",
-     xlab = "Оценка",
-     ylab = "Количество",
+     main = "Р“РёСЃС‚РѕРіСЂР°РјРјР°",
+     xlab = "РћС†РµРЅРєР°",
+     ylab = "РљРѕР»РёС‡РµСЃС‚РІРѕ",
      col = rainbow(10))
 
-# Импорт из csv
+# РРјРїРѕСЂС‚ РёР· csv
 mdf <- read.table('food.csv', header=TRUE,  sep=";", row.names = "Name")
 
-# Дескриптивный анализ
+# Р”РµСЃРєСЂРёРїС‚РёРІРЅС‹Р№ Р°РЅР°Р»РёР·
 data <- sapply(mdf, summary, na.rm = TRUE)
-sd <- sapply(mdf,sd,na.rm = TRUE) # Стандартное отклонение
-var <- sapply(mdf,var,na.rm = TRUE) # Дисперсия
-IQR <- sapply(mdf, IQR, na.rm = TRUE) # Межквартильный размах
-mode <- sapply(mdf, getmode) # Мода
+sd <- sapply(mdf,sd,na.rm = TRUE) # РЎС‚Р°РЅРґР°СЂС‚РЅРѕРµ РѕС‚РєР»РѕРЅРµРЅРёРµ
+var <- sapply(mdf,var,na.rm = TRUE) # Р”РёСЃРїРµСЂСЃРёСЏ
+IQR <- sapply(mdf, IQR, na.rm = TRUE) # РњРµР¶РєРІР°СЂС‚РёР»СЊРЅС‹Р№ СЂР°Р·РјР°С…
+mode <- sapply(mdf, getmode) # РњРѕРґР°
 rbind(data, sd, var, IQR, mode)
 
-# Сортировка по 3 столбцам
+# РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ 3 СЃС‚РѕР»Р±С†Р°Рј
 mdf[order(mdf$Cezar,mdf$Kotleta.s.pure,mdf$Makaroni),]
 
-# Сформировать отдельные наборы данных по одинаковому признаку
-# Оценка за цезарь больше 9
+# РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅС‹Рµ РЅР°Р±РѕСЂС‹ РґР°РЅРЅС‹С… РїРѕ РѕРґРёРЅР°РєРѕРІРѕРјСѓ РїСЂРёР·РЅР°РєСѓ
+# РћС†РµРЅРєР° Р·Р° С†РµР·Р°СЂСЊ Р±РѕР»СЊС€Рµ 9
 newdata1 <- subset(mdf, Cezar>=9)
 
-dim(newdata1) # размерность
+dim(newdata1) # СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ
 
 hist(data.matrix(na.omit(newdata1)),
      breaks = 10,
-     main = "Гистограмма",
-     xlab = "Оценка",
-     ylab = "Количество",
+     main = "Р“РёСЃС‚РѕРіСЂР°РјРјР°",
+     xlab = "РћС†РµРЅРєР°",
+     ylab = "РљРѕР»РёС‡РµСЃС‚РІРѕ",
      col = rainbow(10))
 
 boxplot(newdata1[,c(1:10)],
-        main = "Оценки еды",
-        xlab = "Блюда",
-        ylab = "Оценка",
+        main = "РћС†РµРЅРєРё РµРґС‹",
+        xlab = "Р‘Р»СЋРґР°",
+        ylab = "РћС†РµРЅРєР°",
         col = rainbow(10))
 
 
-# Оценка за Котлюту и Оливье 
+# РћС†РµРЅРєР° Р·Р° РљРѕС‚Р»СЋС‚Сѓ Рё РћР»РёРІСЊРµ 
 newdata2 <- subset(mdf, Kotleta.s.pure > 7 & Olive > 7)
 
-dim(newdata2) # размерность
+dim(newdata2) # СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ
 
 hist(data.matrix(na.omit(newdata2)),
      breaks = 10,
-     main = "Гистограмма",
-     xlab = "Оценка",
-     ylab = "Количество",
+     main = "Р“РёСЃС‚РѕРіСЂР°РјРјР°",
+     xlab = "РћС†РµРЅРєР°",
+     ylab = "РљРѕР»РёС‡РµСЃС‚РІРѕ",
      col = rainbow(10))
 
 boxplot(newdata2[,c(1:10)],
-        main = "Оценки еды",
-        xlab = "Блюда",
-        ylab = "Оценка",
+        main = "РћС†РµРЅРєРё РµРґС‹",
+        xlab = "Р‘Р»СЋРґР°",
+        ylab = "РћС†РµРЅРєР°",
         col = rainbow(10))
 
-# Оценка за Бургер <= 6, Pizza >= 8, Makaroni < 8
+# РћС†РµРЅРєР° Р·Р° Р‘СѓСЂРіРµСЂ <= 6, Pizza >= 8, Makaroni < 8
 newdata3 <- subset(mdf, Burger <= 6 & Pizza >= 8 & Makaroni < 8)
 
-dim(newdata3) # размерность
+dim(newdata3) # СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ
 
 hist(data.matrix(na.omit(newdata3)),
      breaks = 10,
-     main = "Гистограмма",
-     xlab = "Оценка",
-     ylab = "Количество",
+     main = "Р“РёСЃС‚РѕРіСЂР°РјРјР°",
+     xlab = "РћС†РµРЅРєР°",
+     ylab = "РљРѕР»РёС‡РµСЃС‚РІРѕ",
      col = rainbow(10))
 
 boxplot(newdata3[,c(1:10)],
-        main = "Оценки еды",
-        xlab = "Блюда",
-        ylab = "Оценка",
+        main = "РћС†РµРЅРєРё РµРґС‹",
+        xlab = "Р‘Р»СЋРґР°",
+        ylab = "РћС†РµРЅРєР°",
         col = rainbow(10))
 
 
