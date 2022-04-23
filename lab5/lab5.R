@@ -2,41 +2,41 @@ library(rvest)
 
 # url_country_rating <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021")
 
-# select_country <- ".cityOrCountryInIndicesTable" # Название класса хранящий имена стран
-# select_rat <- "td" # Таблица рейтинга
+# select_country <- ".cityOrCountryInIndicesTable" # РќР°Р·РІР°РЅРёРµ РєР»Р°СЃСЃР° С…СЂР°РЅСЏС‰РёР№ РёРјРµРЅР° СЃС‚СЂР°РЅ
+# select_rat <- "td" # РўР°Р±Р»РёС†Р° СЂРµР№С‚РёРЅРіР°
 
-# country_names <- html_nodes(url_country_rating, select_country) %>% html_text() %>% as.array() # Считали имена стран с таблицы
-# country_rat <- html_nodes(url_country_rating, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
-# country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
-# contry_rat <- matrix(country_rat, ncol = 11, nrow = 83, byrow = TRUE) # Создание матрицы
+# country_names <- html_nodes(url_country_rating, select_country) %>% html_text() %>% as.array() # РЎС‡РёС‚Р°Р»Рё РёРјРµРЅР° СЃС‚СЂР°РЅ СЃ С‚Р°Р±Р»РёС†С‹
+# country_rat <- html_nodes(url_country_rating, select_rat) %>% html_text() %>% as.array() # РЎС‡РёС‚Р°Р»Рё СЂРµР№С‚РёРЅРіРё
+# country_rat <- country_rat[-c(1,2,3)] # РЈР±СЂР°Р»Рё Р»РёС€РЅРёРµ РёР· РІРµРєС‚РѕСЂР°
+# contry_rat <- matrix(country_rat, ncol = 11, nrow = 83, byrow = TRUE) # РЎРѕР·РґР°РЅРёРµ РјР°С‚СЂРёС†С‹
 
-select_rat <- "td" # Таблица рейтинга
+select_rat <- "td" # РўР°Р±Р»РёС†Р° СЂРµР№С‚РёРЅРіР°
 
-# Ссылки на определенные года
+# РЎСЃС‹Р»РєРё РЅР° РѕРїСЂРµРґРµР»РµРЅРЅС‹Рµ РіРѕРґР°
 # url_country_rating_2022 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2022") # 22
 # url_country_rating_2021 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021") # 21
 # url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2020") # 20
 # url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
 # url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
 
-names_index <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
-                "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
-                "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
+names_index <- c("РЎС‚СЂР°РЅР°", "РРЅРґРµРєСЃ РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё", "РРЅРґРµРєСЃ РїРѕРєСѓРїР°С‚РµР»СЊРЅРѕР№ СЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё", "РРЅРґРµРєСЃ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё",
+                "РРЅРґРµРєСЃ Р·РґСЂР°РІРѕРѕС…СЂР°РЅРµРЅРёСЏ", "РРЅРґРµРєСЃ СЃС‚РѕРёРјРѕСЃС‚Рё Р¶РёР·РЅРё", "РЎРѕРѕС‚РЅРѕС€РµРЅРёРµ С†РµРЅС‹ РЅР° РЅРµРґРІРёР¶РёРјРѕСЃС‚Рё Рє РґРѕС…РѕРґСѓ",
+                "РРЅРґРµРєСЃ РІСЂРµРјРµРЅРё РІ РїСѓС‚Рё РІ РїСЂРѕР±РєР°С…", "РРЅРґРµРєСЃ Р·Р°РіСЂРµР·РЅРµРЅРёСЏ", "РљР»РёРјР°С‚РёС‡РµСЃРєРёР№ РёРЅРґРµРєСЃ")
 
-all_rating <- list() # Создание пустоq список
-years <- c() # Создали пустой вектор хранящий года
-# Идем по годам
+all_rating <- list() # РЎРѕР·РґР°РЅРёРµ РїСѓСЃС‚Рѕq СЃРїРёСЃРѕРє
+years <- c() # РЎРѕР·РґР°Р»Рё РїСѓСЃС‚РѕР№ РІРµРєС‚РѕСЂ С…СЂР°РЅСЏС‰РёР№ РіРѕРґР°
+# РРґРµРј РїРѕ РіРѕРґР°Рј
 for (i in 2014:2022){
   years <- c(years, toString(i))
   iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i)))
   
-  country_rat <- html_nodes(iter, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
-  country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
-  contry_rat <- matrix(country_rat, ncol = 11, nrow = 60, byrow = TRUE) # Создание матрицы
+  country_rat <- html_nodes(iter, select_rat) %>% html_text() %>% as.array() # РЎС‡РёС‚Р°Р»Рё СЂРµР№С‚РёРЅРіРё
+  country_rat <- country_rat[-c(1,2,3)] # РЈР±СЂР°Р»Рё Р»РёС€РЅРёРµ РёР· РІРµРєС‚РѕСЂР°
+  contry_rat <- matrix(country_rat, ncol = 11, nrow = 60, byrow = TRUE) # РЎРѕР·РґР°РЅРёРµ РјР°С‚СЂРёС†С‹
   
-  contry_rat <- contry_rat[,-c(11)] # Удаление пустого столбца
+  contry_rat <- contry_rat[,-c(11)] # РЈРґР°Р»РµРЅРёРµ РїСѓСЃС‚РѕРіРѕ СЃС‚РѕР»Р±С†Р°
   
-  # Создание базы
+  # РЎРѕР·РґР°РЅРёРµ Р±Р°Р·С‹
   rating <- data.frame(contry_rat)
   
   names(rating) <- names_index
@@ -44,34 +44,34 @@ for (i in 2014:2022){
   all_rating[[length(all_rating)+1]] = rating
 }
 
-names(all_rating) <- years # Присвоили года
+names(all_rating) <- years # РџСЂРёСЃРІРѕРёР»Рё РіРѕРґР°
 
 
 
-# Канада, США, Турция, Греция, Дания - мои страны
+# РљР°РЅР°РґР°, РЎРЁРђ, РўСѓСЂС†РёСЏ, Р“СЂРµС†РёСЏ, Р”Р°РЅРёСЏ - РјРѕРё СЃС‚СЂР°РЅС‹
 my_country <- c("Canada", "United States", "Turkey", "Greece", "Denmark")
 
 
-# Сравнение стран по Индексу жизни за последнии 5 лет
+# РЎСЂР°РІРЅРµРЅРёРµ СЃС‚СЂР°РЅ РїРѕ РРЅРґРµРєСЃСѓ Р¶РёР·РЅРё Р·Р° РїРѕСЃР»РµРґРЅРёРё 5 Р»РµС‚
 
-# Сбор данных
+# РЎР±РѕСЂ РґР°РЅРЅС‹С…
 
-index_life <- list() # список индексов по каждой стране
+index_life <- list() # СЃРїРёСЃРѕРє РёРЅРґРµРєСЃРѕРІ РїРѕ РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРµ
 for(country in my_country){
   iter <- c()
   for (year in 2014:2022){
-    iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == country,2])# Выбрали индекс качества жизни определенной страны
+    iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == country,2])# Р’С‹Р±СЂР°Р»Рё РёРЅРґРµРєСЃ РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ СЃС‚СЂР°РЅС‹
   }
   index_life[[length(index_life)+1]] = iter
   
 }
-names(index_life) <- my_country # Присвоили имена стран
+names(index_life) <- my_country # РџСЂРёСЃРІРѕРёР»Рё РёРјРµРЅР° СЃС‚СЂР°РЅ
 
-# График изменения индекса качества жизни с 2014 года у каждой из 5 стран
+# Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ РёРЅРґРµРєСЃР° РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё СЃ 2014 РіРѕРґР° Сѓ РєР°Р¶РґРѕР№ РёР· 5 СЃС‚СЂР°РЅ
 plot(years,index_life[[1]], type='o', lty=1, pch=20, col='brown', cex = 3,
-     main='Тенденции изменения качества жизни',
-     xlab='Года',
-     ylab='Индекс качества жизни', ylim = c(80,230))
+     main='РўРµРЅРґРµРЅС†РёРё РёР·РјРµРЅРµРЅРёСЏ РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё',
+     xlab='Р“РѕРґР°',
+     ylab='РРЅРґРµРєСЃ РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё', ylim = c(80,230))
 lines(years, index_life[[2]], type='o', lty=1, pch=10, col='green',cex = 3,)
 lines(years, index_life[[3]], type='o', lty=1, pch=15, col='red',cex = 3)
 lines(years, index_life[[4]], type='o', lty=1, pch=17, col='blue',cex = 3)
@@ -84,56 +84,55 @@ legend('topright', my_country,
        y.intersp = 1, text.width = 2)
 
 
-# График изменения индексов у Канады с 2014 года
+# Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ РёРЅРґРµРєСЃРѕРІ Сѓ РљР°РЅР°РґС‹ СЃ 2014 РіРѕРґР°
 index_canada <- c()
-for (year in 2016:2022){
+for (year in 2014:2022){
   iter <- c()
   for (i in 2:10){
-    iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == "Canada",i])# Выбрали индекс качества жизни определенной страны
+    iter <- c(iter, as.numeric(all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == "Canada",i]))# Р’С‹Р±СЂР°Р»Рё РёРЅРґРµРєСЃ РєР°С‡РµСЃС‚РІР° Р¶РёР·РЅРё РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ СЃС‚СЂР°РЅС‹
   }
   index_canada <- c(index_canada, iter)
 }
 
-index_canada <- data.frame(matrix(index_canada,ncol = 7))
-colnames(index_canada) <- years[c(-1,-2)]
-rownames(index_canada) <- names_index[-1]
+index_canada <- data.frame(matrix(index_canada,ncol = 9, byrow = TRUE))
 
 
-index_canada <- lapply(index_canada, function(x) as.numeric(gsub("^.*\\.", "", x)))
+colnames(index_canada) <- names_index[-1]
+rownames(index_canada) <- years
+
+# index_canada <- lapply(index_canada, function(x) as.numeric(gsub("^.*\\.", "", x)))
 
 
-barplot(index_canada, beside = TRUE,col = rainbow(9))
+barplot(data.matrix(index_canada),col = rainbow(9), beside = TRUE, ylim=c(0,200), cex.names = 0.54,
+        main = "Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ РёРЅРґРµРєСЃРѕРІ Сѓ РљР°РЅР°РґС‹ СЃ 2014 РіРѕРґР°", ylab = "РРЅРґРµРєСЃ") #beside = TRUE
 
-legend('topright', names_index[-1], col = rainbow(9),
-       y.intersp = 1, text.width = 40)
+legend('topright', rownames(index_canada), col = rainbow(9),
+       y.intersp = 1, text.width = 10, pch=15)
 
-# Один год, все страны все индексы
-
-
-
-
-
+# РћРґРёРЅ РіРѕРґ, РІСЃРµ СЃС‚СЂР°РЅС‹ РІСЃРµ РёРЅРґРµРєСЃС‹
 
 
 
 
 
-# Задание с музеем
-# Считывание всех музеев со страницы
-url_museum <- read_html("https://tonkosti.ru/Музеи_Санкт-Петербурга") # Считали ссылку
 
-select_museum <- "h3.places-list__item-header" # Название класса хранящий имя музея
-select_museum_address <- "div.places-list__address--rc"# Класс хранящий адреса музеев
+
+# Р—Р°РґР°РЅРёРµ СЃ РјСѓР·РµРµРј
+# РЎС‡РёС‚С‹РІР°РЅРёРµ РІСЃРµС… РјСѓР·РµРµРІ СЃРѕ СЃС‚СЂР°РЅРёС†С‹
+url_museum <- read_html("https://tonkosti.ru/РњСѓР·РµРё_РЎР°РЅРєС‚-РџРµС‚РµСЂР±СѓСЂРіР°") # РЎС‡РёС‚Р°Р»Рё СЃСЃС‹Р»РєСѓ
+
+select_museum <- "h3.places-list__item-header" # РќР°Р·РІР°РЅРёРµ РєР»Р°СЃСЃР° С…СЂР°РЅСЏС‰РёР№ РёРјСЏ РјСѓР·РµСЏ
+select_museum_address <- "div.places-list__address--rc"# РљР»Р°СЃСЃ С…СЂР°РЅСЏС‰РёР№ Р°РґСЂРµСЃР° РјСѓР·РµРµРІ
 select_museum_url <- ".places-list__item-img"
 
-museums_names <- html_nodes(url_museum, select_museum) %>% html_text() %>% as.array() # Считали названия всех музеев
-museums_adress <- html_nodes(url_museum, select_museum_address) %>% html_text() %>% as.array() # Считали адреса всех музеев
+museums_names <- html_nodes(url_museum, select_museum) %>% html_text() %>% as.array() # РЎС‡РёС‚Р°Р»Рё РЅР°Р·РІР°РЅРёСЏ РІСЃРµС… РјСѓР·РµРµРІ
+museums_adress <- html_nodes(url_museum, select_museum_address) %>% html_text() %>% as.array() # РЎС‡РёС‚Р°Р»Рё Р°РґСЂРµСЃР° РІСЃРµС… РјСѓР·РµРµРІ
 museums_urls <- html_nodes(url_museum, select_museum_url) %>% html_attr("href") %>% as.array()
 
 museums_names
 museums_adress
-museums_urls <- unique(museums_urls) # Удалили повторения
+museums_urls <- unique(museums_urls) # РЈРґР°Р»РёР»Рё РїРѕРІС‚РѕСЂРµРЅРёСЏ
 
-full_museums_address <- paste0("https://tonkosti.ru", museums_urls) # Добавили полный адрес музея
+full_museums_address <- paste0("https://tonkosti.ru", museums_urls) # Р”РѕР±Р°РІРёР»Рё РїРѕР»РЅС‹Р№ Р°РґСЂРµСЃ РјСѓР·РµСЏ
 
-museum <- data.frame("Музей" = museums_names, "Адрес" = museums_adress, "Веб страница" =  full_museums_address) # Создание базы музеев
+museum <- data.frame("РњСѓР·РµР№" = museums_names, "РђРґСЂРµСЃ" = museums_adress, "Р’РµР± СЃС‚СЂР°РЅРёС†Р°" =  full_museums_address) # РЎРѕР·РґР°РЅРёРµ Р±Р°Р·С‹ РјСѓР·РµРµРІ
