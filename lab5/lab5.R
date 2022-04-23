@@ -1,34 +1,18 @@
 library(rvest)
 
-# url_country_rating <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021")
-
-# select_country <- ".cityOrCountryInIndicesTable" # Название класса хранящий имена стран
-# select_rat <- "td" # Таблица рейтинга
-
-# country_names <- html_nodes(url_country_rating, select_country) %>% html_text() %>% as.array() # Считали имена стран с таблицы
-# country_rat <- html_nodes(url_country_rating, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
-# country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
-# contry_rat <- matrix(country_rat, ncol = 11, nrow = 83, byrow = TRUE) # Создание матрицы
-
 select_rat <- "td" # Таблица рейтинга
 
-# Ссылки на определенные года
-# url_country_rating_2022 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2022") # 22
-# url_country_rating_2021 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2021") # 21
-# url_country_rating_2020 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2020") # 20
-# url_country_rating_2019 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2019") # 19
-# url_country_rating_2018 <- read_html("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=2018") # 18
-
-names_index <- c("Страна", "Индекс качества жизни", "Индекс покупательной способности", "Индекс безопасности",
-                "Индекс здравоохранения", "Индекс стоимости жизни", "Соотношение цены на недвижимости к доходу",
-                "Индекс времени в пути в пробках", "Индекс загрезнения", "Климатический индекс")
+names_index <- c("Страна", "Качества жизни", "Покупательная способность", "Безопасность",
+                "Здравоохранение", "Стоимости жизни", "Недвижимости к доходу",
+                "Пробки", "Загрезнения", "Климат")
 
 all_rating <- list() # Создание пустоq список
 years <- c() # Создали пустой вектор хранящий года
+
 # Идем по годам
 for (i in 2014:2022){
-  years <- c(years, toString(i))
-  iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i)))
+  years <- c(years, toString(i)) # Добавили год
+  iter <- read_html(paste0("https://www.numbeo.com/quality-of-life/rankings_by_country.jsp?title=", toString(i))) # Считывание со страницы
   
   country_rat <- html_nodes(iter, select_rat) %>% html_text() %>% as.array() # Считали рейтинги
   country_rat <- country_rat[-c(1,2,3)] # Убрали лишние из вектора
@@ -36,12 +20,11 @@ for (i in 2014:2022){
   
   contry_rat <- contry_rat[,-c(11)] # Удаление пустого столбца
   
-  # Создание базы
-  rating <- data.frame(contry_rat)
+  rating <- data.frame(contry_rat) # Создание базы
   
-  names(rating) <- names_index
+  names(rating) <- names_index # Присвоили индекс
   
-  all_rating[[length(all_rating)+1]] = rating
+  all_rating[[length(all_rating)+1]] = rating # Добавление в список
 }
 
 names(all_rating) <- years # Присвоили года
@@ -62,7 +45,7 @@ for(country in my_country){
   for (year in 2014:2022){
     iter <- c(iter, all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == country,2])# Выбрали индекс качества жизни определенной страны
   }
-  index_life[[length(index_life)+1]] = iter
+  index_life[[length(index_life)+1]] = iter # Добавление в список
   
 }
 names(index_life) <- my_country # Присвоили имена стран
@@ -82,40 +65,66 @@ legend('topright', my_country,
        pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
        col=c('brown', 'green', 'red', 'blue', 'black'),
        y.intersp = 1, text.width = 2)
-
+#-------------------------------------------------------------------------------
 
 # График изменения индексов у Канады с 2014 года
+
+# Сбор данных
 index_canada <- c()
 for (year in 2014:2022){
   iter <- c()
   for (i in 2:10){
-    iter <- c(iter, as.numeric(all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == "Canada",i]))# Выбрали индекс качества жизни определенной страны
+    iter <- c(iter, as.numeric(all_rating[[toString(year)]][all_rating[[toString(year)]][,1] == "Canada",i])) # Выбрали индекс качества жизни определенной страны
   }
   index_canada <- c(index_canada, iter)
 }
 
-index_canada <- data.frame(matrix(index_canada,ncol = 9, byrow = TRUE))
+index_canada <- data.frame(matrix(index_canada,ncol = 9, byrow = TRUE)) # Создание data.frame
 
-
+# Добавляем имена столбикам и строкам
 colnames(index_canada) <- names_index[-1]
 rownames(index_canada) <- years
 
-# index_canada <- lapply(index_canada, function(x) as.numeric(gsub("^.*\\.", "", x)))
 
-
+# График изменения индексов у Канады с 2014 года
 barplot(data.matrix(index_canada),col = rainbow(9), beside = TRUE, ylim=c(0,200), cex.names = 0.54,
         main = "График изменения индексов у Канады с 2014 года", ylab = "Индекс") #beside = TRUE
 
 legend('topright', rownames(index_canada), col = rainbow(9),
        y.intersp = 1, text.width = 10, pch=15)
 
-# Один год, все страны все индексы
+#-------------------------------------------------------------------------------
+
+# График за 2022 год, сравнение стран по всем индексам
+
+index_country <- c() # список индексов по каждой стране
+for(country in my_country){
+  country_iter <- numeric()
+  for (i in 2:10){
+    country_iter <- c(country_iter, as.numeric(all_rating[['2022']][all_rating[['2022']][,1] == country,i])) # Выбрали индексы для страны
+  }
+  index_country <- c(index_country,country, country_iter) # Добавили страну и её индекс
+  
+}
+
+index_country <- data.frame(matrix(index_country,ncol = 10, byrow = TRUE)) # Создание data.frame
+
+colnames(index_country) <- names_index # Присвоили имена индексам
+rownames(index_country) <- my_country # Присвоили страны
+
+index_country <- index_country[-c(1)] # Удалили лишние
+
+index_country <- sapply(index_country, as.numeric) # Сделали из character -> numeric
 
 
+# График
+barplot(data.matrix(index_country),col = rainbow(5), beside = TRUE, ylim=c(0,200), cex.names = 0.54,
+        main = "График сравнения индексов стран за 2022 год", ylab = "Индекс") #beside = TRUE
 
+legend('topright', my_country, col = rainbow(5),
+       y.intersp = 1, text.width = 10, pch=15)
 
-
-
+#-------------------------------------------------------------------------------
 
 # Задание с музеем
 # Считывание всех музеев со страницы
