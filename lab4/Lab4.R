@@ -1,63 +1,63 @@
 library("xlsx")
 
-# Германия - Акробатика
-# Места 1-8
-germany_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/1-8_Ger.xlsx", 
-                   sheetIndex = 1)
+# Р“РµСЂРјР°РЅРёСЏ - РђРєСЂРѕР±Р°С‚РёРєР°
+# РњРµСЃС‚Р° 1-8
+germany_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Р”РѕРєСѓРјРµРЅС‚С‹/GitHub/Big_Data_R/lab4/1-8_Ger.xlsx", 
+                          sheetIndex = 1)
 
-rownames(germany_acro)<-germany_acro[,1] # Сделали первый столбец именами
-olympics <- germany_acro[,1] # Олимпиады
+rownames(germany_acro)<-germany_acro[,1] # РЎРґРµР»Р°Р»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС† РёРјРµРЅР°РјРё
+olympics <- germany_acro[,1] # РћР»РёРјРїРёР°РґС‹
 
-germany_acro<-germany_acro[,-1] #удалили первый столбец
+germany_acro<-germany_acro[,-1] #СѓРґР°Р»РёР»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС†
 
-place_1_8 <- germany_acro[,2] # Места с первого по 8
+place_1_8 <- germany_acro[,2] # РњРµСЃС‚Р° СЃ РїРµСЂРІРѕРіРѕ РїРѕ 8
 
-# Значение для восстановления параметров
-default <- par(no.readonly = TRUE) # создает копию текущих параметров
-par(mar = c(5, 10, 4, 4)) # размеры полей низ лево вверх право
+# Р—РЅР°С‡РµРЅРёРµ РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
+default <- par(no.readonly = TRUE) # СЃРѕР·РґР°РµС‚ РєРѕРїРёСЋ С‚РµРєСѓС‰РёС… РїР°СЂР°РјРµС‚СЂРѕРІ
+par(mar = c(5, 10, 4, 4)) # СЂР°Р·РјРµСЂС‹ РїРѕР»РµР№ РЅРёР· Р»РµРІРѕ РІРІРµСЂС… РїСЂР°РІРѕ
 
-barplot(place_1_8, names.arg = olympics, horiz = TRUE, main="Диаграмма числа 1-8 мест сборной Германии по акробатики",cex.axis = 2,
-        xlab="Число мест", las=1, col=rainbow(6))
+barplot(place_1_8, names.arg = olympics, horiz = TRUE, main="Р”РёР°РіСЂР°РјРјР° С‡РёСЃР»Р° 1-8 РјРµСЃС‚ СЃР±РѕСЂРЅРѕР№ Р“РµСЂРјР°РЅРёРё РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРё",cex.axis = 2,
+        xlab="Р§РёСЃР»Рѕ РјРµСЃС‚", las=1, col=rainbow(6))
 par(default)
 
-# Выбрали первые места из таблицы
+# Р’С‹Р±СЂР°Р»Рё РїРµСЂРІС‹Рµ РјРµСЃС‚Р° РёР· С‚Р°Р±Р»РёС†С‹
 
-first <- subset(germany_acro, Первые > 0, select = "Первые")
+first <- subset(germany_acro, РџРµСЂРІС‹Рµ > 0, select = "РџРµСЂРІС‹Рµ")
 
 percentage = round(100 * first[,1] / sum(first[,1]), 1)
 pieNames <- paste(rownames(first), " (", percentage, "%)", sep="")
-par(mar = c(5, 4, 4, 4)) # размеры полей низ лево вверх право
+par(mar = c(5, 4, 4, 4)) # СЂР°Р·РјРµСЂС‹ РїРѕР»РµР№ РЅРёР· Р»РµРІРѕ РІРІРµСЂС… РїСЂР°РІРѕ
 
 pie(first[,1], pieNames, radius = 1, col=rainbow(6), cex = 1.4,
-    main="Распределение числа первых мест сборной Германии по акробатики")
+    main="Р Р°СЃРїСЂРµРґРµР»РµРЅРёРµ С‡РёСЃР»Р° РїРµСЂРІС‹С… РјРµСЃС‚ СЃР±РѕСЂРЅРѕР№ Р“РµСЂРјР°РЅРёРё РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРё")
 
-# Призовые места мужчин и женщин за все вреия
-men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
-                          sheetIndex = 1)
+# РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РјСѓР¶С‡РёРЅ Рё Р¶РµРЅС‰РёРЅ Р·Р° РІСЃРµ РІСЂРµРёСЏ
+men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Р”РѕРєСѓРјРµРЅС‚С‹/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
+                            sheetIndex = 1)
 
-rownames(men_women_acro)<-men_women_acro[,1] # Сделали первый столбец именами
-olympics <- men_women_acro[,1] # Олимпиады
-men_women_acro<-men_women_acro[,-1] #удалили первый столбец
+rownames(men_women_acro)<-men_women_acro[,1] # РЎРґРµР»Р°Р»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС† РёРјРµРЅР°РјРё
+olympics <- men_women_acro[,1] # РћР»РёРјРїРёР°РґС‹
+men_women_acro<-men_women_acro[,-1] #СѓРґР°Р»РёР»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС†
 
 years <- substr(olympics,1,4)
 plot(years, men_women_acro[,1], type='o', lty=1, ylim=c(0, 12), pch=17, col="blue",cex = 3,
-     main="Тенденции изменения количества призовых мест",
-     xlab="Год олимпиады", ylab="Число призовых мест")
+     main="РўРµРЅРґРµРЅС†РёРё РёР·РјРµРЅРµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° РїСЂРёР·РѕРІС‹С… РјРµСЃС‚",
+     xlab="Р“РѕРґ РѕР»РёРјРїРёР°РґС‹", ylab="Р§РёСЃР»Рѕ РїСЂРёР·РѕРІС‹С… РјРµСЃС‚")
 lines(years, men_women_acro[,2], type='o', lty=1, pch=18, col='red')
-legend('topright', c('Мужчины', 'Женщины'), pch=c(17, 18), col=c('blue', 'red'))
+legend('topright', c('РњСѓР¶С‡РёРЅС‹', 'Р–РµРЅС‰РёРЅС‹'), pch=c(17, 18), col=c('blue', 'red'))
 
 
-# Первые места последних 4 летние олимпиад
-firstPlaces <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Medal.csv", 
+# РџРµСЂРІС‹Рµ РјРµСЃС‚Р° РїРѕСЃР»РµРґРЅРёС… 4 Р»РµС‚РЅРёРµ РѕР»РёРјРїРёР°Рґ
+firstPlaces <- read.csv(file = "C:/Users/kosty/OneDrive/Р”РѕРєСѓРјРµРЅС‚С‹/GitHub/Big_Data_R/lab4/Medal.csv", 
                         sep = ";", row.names = 1, header = TRUE)
 
 years <- substr(rownames(firstPlaces),1,4)
 
-# График изменения спортивных достижений по золотым медалям 
+# Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ СЃРїРѕСЂС‚РёРІРЅС‹С… РґРѕСЃС‚РёР¶РµРЅРёР№ РїРѕ Р·РѕР»РѕС‚С‹Рј РјРµРґР°Р»СЏРј 
 plot(years, firstPlaces[,1], type='o', lty=1, pch=20, col='brown',cex = 3,
-     main='Тенденции изменения количества золотых медалей',
-     xlab='Четыре последние летние олимпиады',
-     ylab='Число медалей',
+     main='РўРµРЅРґРµРЅС†РёРё РёР·РјРµРЅРµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° Р·РѕР»РѕС‚С‹С… РјРµРґР°Р»РµР№',
+     xlab='Р§РµС‚С‹СЂРµ РїРѕСЃР»РµРґРЅРёРµ Р»РµС‚РЅРёРµ РѕР»РёРјРїРёР°РґС‹',
+     ylab='Р§РёСЃР»Рѕ РјРµРґР°Р»РµР№',
      ylim=c(7, 51))
 lines(years, firstPlaces[,2], type='o', lty=1, pch=10, col='green',cex = 3,)
 lines(years, firstPlaces[,3], type='o', lty=1, pch=15, col='red',cex = 3,)
@@ -72,15 +72,15 @@ legend('topright', colnames(firstPlaces),
        y.intersp = 0.6, text.width = 2)
 
 # 
-# Призовые места последние 4 летние олимпиады
-prizePlaces <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Prize Places.csv", 
+# РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РїРѕСЃР»РµРґРЅРёРµ 4 Р»РµС‚РЅРёРµ РѕР»РёРјРїРёР°РґС‹
+prizePlaces <- read.csv(file = "C:/Users/kosty/OneDrive/Р”РѕРєСѓРјРµРЅС‚С‹/GitHub/Big_Data_R/lab4/Prize Places.csv", 
                         sep = ";", row.names = 1, header = TRUE)
 
-# График изменения спортивных достижений по 3-м медалям 
+# Р“СЂР°С„РёРє РёР·РјРµРЅРµРЅРёСЏ СЃРїРѕСЂС‚РёРІРЅС‹С… РґРѕСЃС‚РёР¶РµРЅРёР№ РїРѕ 3-Рј РјРµРґР°Р»СЏРј 
 plot(years, prizePlaces[,1], type='o', lty=1, pch=20, col='brown', cex = 3,
-     main='Тенденции изменения количества призовых мест(1-3)',
-     xlab='Четыре последние летние олимпиады',
-     ylab='Число медалей',
+     main='РўРµРЅРґРµРЅС†РёРё РёР·РјРµРЅРµРЅРёСЏ РєРѕР»РёС‡РµСЃС‚РІР° РїСЂРёР·РѕРІС‹С… РјРµСЃС‚(1-3)',
+     xlab='Р§РµС‚С‹СЂРµ РїРѕСЃР»РµРґРЅРёРµ Р»РµС‚РЅРёРµ РѕР»РёРјРїРёР°РґС‹',
+     ylab='Р§РёСЃР»Рѕ РјРµРґР°Р»РµР№',
      ylim=c(25, 121))
 lines(years, prizePlaces[,2], type='o', lty=1, pch=10, col='green',cex = 3,)
 lines(years, prizePlaces[,3], type='o', lty=1, pch=15, col='red',cex = 3)
@@ -89,42 +89,39 @@ lines(years, prizePlaces[,5], type='o', lty=1, pch=18, col='black',cex = 3)
 lines(years, prizePlaces[,6], type='o', lty=1, pch=12, col='yellow',cex = 3)
 lines(years, prizePlaces[,7], type='o', lty=1, pch=13, col='purple',cex = 3)
 
-legend('topright', c('США', 'Великобритания', "Китай", "Россия", "Германия", "Япония", "Франция"),
+legend('topright', c('РЎРЁРђ', 'Р’РµР»РёРєРѕР±СЂРёС‚Р°РЅРёСЏ', "РљРёС‚Р°Р№", "Р РѕСЃСЃРёСЏ", "Р“РµСЂРјР°РЅРёСЏ", "РЇРїРѕРЅРёСЏ", "Р¤СЂР°РЅС†РёСЏ"),
        pch=c(20,10,15,17,18,12,13), lty=c(1,1,1,1,1,1,1),
        col=c('brown', 'green', 'red', 'blue', 'black', 'yellow', 'purple'),
        y.intersp = 0.8, text.width = 2)
 
 
 
-# Призовые места мужчин и женщин последние 5 олимпиад по акробатике
+# РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РјСѓР¶С‡РёРЅ Рё Р¶РµРЅС‰РёРЅ РїРѕСЃР»РµРґРЅРёРµ 5 РѕР»РёРјРїРёР°Рґ РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРµ
 
-# Призовые места мужчин и женщин за все вреия
-men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
+# РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РјСѓР¶С‡РёРЅ Рё Р¶РµРЅС‰РёРЅ Р·Р° РІСЃРµ РІСЂРµРёСЏ
+men_women_acro <- read.xlsx(file = "C:/Users/kosty/OneDrive/Р”РѕРєСѓРјРµРЅС‚С‹/GitHub/Big_Data_R/lab4/Men_Women.xlsx", 
                             sheetIndex = 1)
 
-rownames(men_women_acro)<-men_women_acro[,1] # Сделали первый столбец именами
+rownames(men_women_acro)<-men_women_acro[,1] # РЎРґРµР»Р°Р»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС† РёРјРµРЅР°РјРё
 
-men <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "Мужчины") # Выбрали мужчин по последним 6 олимпиадам по акробатике
+men <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "РњСѓР¶С‡РёРЅС‹") # Р’С‹Р±СЂР°Р»Рё РјСѓР¶С‡РёРЅ РїРѕ РїРѕСЃР»РµРґРЅРёРј 6 РѕР»РёРјРїРёР°РґР°Рј РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРµ
 
-women <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "Женщины") # Выбрали женщин по последним 6 олимпиадам по акробатике
+women <- subset(men_women_acro, substr(men_women_acro[,1],1,4) > 1998 , select = "Р–РµРЅС‰РёРЅС‹") # Р’С‹Р±СЂР°Р»Рё Р¶РµРЅС‰РёРЅ РїРѕ РїРѕСЃР»РµРґРЅРёРј 6 РѕР»РёРјРїРёР°РґР°Рј РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРµ
 
-men_women_acro<-men_women_acro[,-1] #удалили первый столбец
+men_women_acro<-men_women_acro[,-1] #СѓРґР°Р»РёР»Рё РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РµС†
 
-# Столбчатая диаграмма по мужчинам
+# РЎС‚РѕР»Р±С‡Р°С‚Р°СЏ РґРёР°РіСЂР°РјРјР° РїРѕ РјСѓР¶С‡РёРЅР°Рј
 barplot(men[,1], 
         col=rainbow(6),
-        main="Призовые места мужчин за последнии 6 олимпиад по акробатике",
-        ylab="Число медалей",
-        xlab = "Олимпиады",
+        main="РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РјСѓР¶С‡РёРЅ Р·Р° РїРѕСЃР»РµРґРЅРёРё 6 РѕР»РёРјРїРёР°Рґ РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРµ",
+        ylab="Р§РёСЃР»Рѕ РјРµРґР°Р»РµР№",
+        xlab = "РћР»РёРјРїРёР°РґС‹",
         names.arg = rownames(men), cex.axis = 2, cex.names = 0.8)
 
-# Столбчатая диаграмма по женщинам
+# РЎС‚РѕР»Р±С‡Р°С‚Р°СЏ РґРёР°РіСЂР°РјРјР° РїРѕ Р¶РµРЅС‰РёРЅР°Рј
 barplot(women[,1], 
         col=rainbow(6),
-        main="Призовые места мужчин за последнии 6 олимпиад по акробатике",
-        ylab="Число медалей",
-        xlab = "Олимпиады",
+        main="РџСЂРёР·РѕРІС‹Рµ РјРµСЃС‚Р° РјСѓР¶С‡РёРЅ Р·Р° РїРѕСЃР»РµРґРЅРёРё 6 РѕР»РёРјРїРёР°Рґ РїРѕ Р°РєСЂРѕР±Р°С‚РёРєРµ",
+        ylab="Р§РёСЃР»Рѕ РјРµРґР°Р»РµР№",
+        xlab = "РћР»РёРјРїРёР°РґС‹",
         names.arg = rownames(women), cex.axis = 2, cex.names = 0.8)
-
-
-
