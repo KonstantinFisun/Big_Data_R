@@ -41,4 +41,4 @@ labels <- airplan_crushes[,4]
 
 # целесообразно разделить ее на 3 либо на 4 кластера. Попробуем разделить на 4 кластера.
 plot(clust.airplan_crushes, labels, cex=0.5)
-rect.hclust(clust.airplan_crushes, k=3, border="red")
+rect.hclust(clust.airplan_crushes, k=6, border="red")
