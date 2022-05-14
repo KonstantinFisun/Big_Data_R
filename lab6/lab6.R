@@ -49,13 +49,19 @@ airplan_crushes[groups==1, 7]
 airplan_crushes[groups==2, 7]
 airplan_crushes[groups==3, 7]
 
-
+par(mar = c(4, 5, 6, 4))
 # Вычисляем среднее значение показателей в каждом кластере
 #  в 1-ом кластере
-g1<-colMeans(airplan_crushes[groups==1,])
+g1<-colMeans(airplan_crushes[groups==1,10:12])
 #  во 2-ом кластере
-g2<-colMeans(airplan_crushes[groups==2,])
+g2<-colMeans(airplan_crushes[groups==2,10:12])
 #  в 3-ем кластере
-g3<-colMeans(airplan_crushes[groups==3,])
+g3<-colMeans(airplan_crushes[groups==3,10:12])
 
+# Построение столбчатой диаграммы
+df <- data.frame(g1,g2,g3)
+rownames(df) <- names_cols_airplan_crushes[10:12]
+
+barplot(data.matrix(df), main="Группы самолетов", col=rainbow(3), ylim = c(0,150), beside = TRUE)
+legend("topright", names_cols_airplan_crushes[10:12], col=rainbow(3), lwd=5, bty = "n",  y.intersp = 0.8, text.width = 6)
 
