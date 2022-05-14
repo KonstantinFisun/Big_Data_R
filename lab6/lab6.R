@@ -42,5 +42,20 @@ plot(clust.airplan_crushes, labels, cex=0.5, main="Дендрограмма кл
 # целесообразно разделить ее на 3 кластера.
 rect.hclust(clust.airplan_crushes, k=3, border="red")
 
+# Разбиение дендрограммы на кластеры
+groups <- cutree(clust.airplan_crushes, k = 3)
+
+airplan_crushes[groups==1, 7]
+airplan_crushes[groups==2, 7]
+airplan_crushes[groups==3, 7]
+
+
+# Вычисляем среднее значение показателей в каждом кластере
+#  в 1-ом кластере
+g1<-colMeans(airplan_crushes[groups==1,])
+#  во 2-ом кластере
+g2<-colMeans(airplan_crushes[groups==2,])
+#  в 3-ем кластере
+g3<-colMeans(airplan_crushes[groups==3,])
 
 
