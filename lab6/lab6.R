@@ -65,3 +65,6 @@ rownames(df) <- names_cols_airplan_crushes[10:12]
 barplot(data.matrix(df), main="Группы самолетов", col=rainbow(3), ylim = c(0,150), beside = TRUE)
 legend("topright", names_cols_airplan_crushes[10:12], col=rainbow(3), lwd=5, bty = "n",  y.intersp = 0.8, text.width = 6)
 
+# Каменная осыпь
+plot(1:144, clust.airplan_crushes$height, type='b', main = "Диаграмма каменная осыпь") 
+
