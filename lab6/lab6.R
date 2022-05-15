@@ -75,3 +75,12 @@ library(lattice)
 xyplot(airplan_crushes[,10] ~ airplan_crushes[,11], airplan_crushes, main='Зависимость количества людей на борту от летальных случаев на борту',
        xlab='Смертельные случаи на борту', ylab='Находились на борту',  auto.key = TRUE, groups = groups)
 
+grou <- c("1","2","3")
+xyplot(
+  airplan_crushes[,10] ~ airplan_crushes[,11] | groups, 
+  layout = c(3, 1),               # panel with ncol = 3 and nrow = 1
+  group = groups, data = airplan_crushes,
+  type = c("p", "smooth"),        # Show points and smoothed line
+  scales = "free"                 # Make panels axis scales independent
+)
+
