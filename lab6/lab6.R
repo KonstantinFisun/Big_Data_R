@@ -68,3 +68,10 @@ legend("topright", names_cols_airplan_crushes[10:12], col=rainbow(3), lwd=5, bty
 # Каменная осыпь
 plot(1:144, clust.airplan_crushes$height, type='b', main = "Диаграмма каменная осыпь") 
 
+library(lattice)
+
+# Двумерные диаграммы рассеяния
+# Зависимость мощности двигателя от расхода
+xyplot(airplan_crushes[,10] ~ airplan_crushes[,11], airplan_crushes, main='Зависимость количества людей на борту от летальных случаев на борту',
+       xlab='Смертельные случаи на борту', ylab='Находились на борту',  auto.key = TRUE, groups = groups)
+
