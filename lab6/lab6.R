@@ -48,7 +48,7 @@ airplan_crushes[groups==1, 7]
 airplan_crushes[groups==2, 7]
 airplan_crushes[groups==3, 7]
 
-par(mar = c(4, 5, 6, 4))
+#par(mar = c(4, 5, 6, 4))
 # Вычисляем среднее значение показателей в каждом кластере
 #  в 1-ом кластере
 g1<-colMeans(airplan_crushes[groups==1,10:12])
@@ -76,7 +76,7 @@ xyplot(airplan_crushes[,10] ~ airplan_crushes[,11], airplan_crushes, main='За�
 
 grou <- c("1","2","3")
 xyplot(
-  airplan_crushes[,10] ~ airplan_crushes[,11] | groups, 
+  airplan_crushes$`Находилось на борту` ~ airplan_crushes$`Cмертельные случаи на борту` | groups, 
   layout = c(3, 1),               # panel with ncol = 3 and nrow = 1
   group = groups, data = airplan_crushes,
   type = c("p", "smooth"),        # Show points and smoothed line
