@@ -16,7 +16,6 @@ airplan_crushes[airplan_crushes == ""] <- NA # Пустые значение, с
 # Удалим строки, где есть пустые значения
 airplan_crushes <- airplan_crushes[rowSums(is.na(airplan_crushes[,])) == 0,]
 
-# Оставили 100 рейсов
 airplan_crushes <- airplan_crushes[800:944,]
 
 # Стандартизация переменных
@@ -83,4 +82,7 @@ xyplot(
   type = c("p", "smooth"),        # Show points and smoothed line
   scales = "free"                 # Make panels axis scales independent
 )
+
+
+
 
