@@ -72,3 +72,37 @@ accuracy_bayes
 paste("Точность=", round(100*accuracy_bayes, 2), "%", sep = "")
 
 #----------------------------------------------------------
+
+# Классификация с помощью дерева решений Decision Tree
+set.seed(1234)
+# Индексирование данных, для 1 вероятность 60%, для 2 - 40%
+index <- sample(2, nrow(airplane_N), replace=TRUE, prob=c(0.7, 0.3))
+
+# Разделение на обучающую и тестовую выборки
+trainData <- airplane_N[index==1,]
+testData <- airplane_N[index==2,]
+nrow(trainData) 
+nrow(testData)
+nrow(airplane_N)
+
+install.packages("party")
+library(party)
+
+# Построение модели
+# Указываем зависимость групп от каждого параметра
+formula <- groups_f ~ Находилось.на.борту+Cмертельные.случаи.на.борту+Убитые.при.приземлении
+airplane_ctree <- ctree(formula, trainData)
+
+# Обучение модели
+predict(airplane_ctree)
+trainData$groups_f
+table(predict(airplane_ctree), trainData$groups_f)
+plot(airplane_ctree)
+
+# Применение модели
+test_predict <- predict(airplane_ctree, newdata=testData)
+table(test_predict, testData$groups_f)
+accuracy_tree <- mean(test_predict == testData$groups_f)
+accuracy_tree
+
+#------------------------------------------------------------------
