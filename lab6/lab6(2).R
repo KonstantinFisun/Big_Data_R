@@ -106,3 +106,16 @@ accuracy_tree <- mean(test_predict == testData$groups_f)
 accuracy_tree
 
 #------------------------------------------------------------------
+
+# Алгоритм Random Forest
+library(randomForest)
+
+# Обучение модели
+forest <- randomForest(groups_f ~ .,trainData, ntree=20, proximity=TRUE)
+table(predict(forest), trainData$groups_f)
+
+
+# Применение на тестовой выборке
+test_forest <- randomForest(groups_f ~ .,testData, ntree=20, proximity=TRUE)
+table(predict(test_forest), testData$groups_f)
+
