@@ -39,3 +39,31 @@ wilcox.test(weight, mu=65, conf.int = TRUE)
 
 # Тест Шапиро-Уилкса для проверки на нормальность
 shapiro.test(weight)
+
+#-------------------------------------------------------------------------------
+
+# Выборка гимнастов и атлетов
+tennis_swimming_men <- subset(olympics, Sex == 'M' & (Sport == 'Tennis' | Sport == 'Swimming'))
+
+weight <- as.numeric(tennis_swimming_men$Weight)
+
+# Гистограмма веса
+hist(weight, main='Гистограмма веса теннисистов и пловцов', xlab='Вес')
+
+# Проверка на нормальность
+qqPlot(weight)
+
+tennis_weight <- as.numeric(subset(olympics, Sex == 'M' & Sport == 'Tennis')$Weight)
+swimming_weight <- as.numeric(subset(olympics, Sex == 'M' & Sport == 'Swimming')$Weight)
+
+mean(tennis_weight, na.rm=TRUE)
+mean(swimming_weight, na.rm = TRUE)
+
+# Тест на равенство дисперсий
+bartlett.test(as.numeric(tennis_swimming_men$Weight) ~ tennis_swimming_men$Sport, data=tennis_swimming_men)
+
+# Проверка, различаются ли выбранные средние значения с помощью теста Уэлча
+t.test(as.numeric(tennis_swimming_men$Weight) ~ tennis_swimming_men$Sport)
+
+# Проверка, при условии, что дисперсии равны
+t.test(as.numeric(tennis_swimming_men$Weight) ~ tennis_swimming_men$Sport, paired = FALSE, var.equal = TRUE)
