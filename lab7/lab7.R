@@ -58,7 +58,7 @@ gymnastics_athletics_men <- gymnastics_athletics_men %>% group_by(ID) %>% filter
 weight_gymnastics_athletics_men <- as.numeric(gymnastics_athletics_men$Weight)
 
 # Гистограмма веса
-hist(weight_gymnastics_athletics_men, main='Гистограмма веса гимнастов и атлетов', xlab='Вес', xlim = c(40,150), ylim = c(0,6000))
+hist(weight_gymnastics_athletics_men, main='Гистограмма веса гимнастов и атлетов', xlab='Вес', xlim = c(40,150), ylim = c(0,5000))
 
 # Проверка на нормальность
 qqPlot(weight)
