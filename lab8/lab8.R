@@ -9,9 +9,9 @@ india <- subset(input_table, Country.Code == "IND")
 # Индия
 # Приведение датасета к необходимому формату
 years <- c(1989:2017)
-ind <- c("GDP", "GDP growth", "Births", "Birth rate", "Adjusted income", "Unemployment advanced", 'Unemployment basic', "Imports of goods", "Industry", "Government health",
-         "Life expectancy", "Population", "Government expenditure", "Goods imports", "Exports of goods",
-         "Death rate", "Educational total", "Educational female", "High-technology exports", " Best industry", "Scientific articles")
+ind <- c("ВВП", "ВВП рост", "Рождаемость", "Динамика рож.", "Заемщики", "Безраб(выс)", 'Безработные(баз)', "Импорт", "Промышленность", "Расходы на мед.",
+         "Продол. жизни", "Прирост популяции", "Расходы на образ", "Объем импорта", "Экспорт",
+         "Смертностьь", "Образованных", "Образованных(ж)", "Экспорт High-tech", "Лучшая индустр", "Науч статей")
 
 indicators <- india[,3]
 india <- india[-c(8,9),-c(1,2,3,4,34)]
@@ -33,50 +33,50 @@ plot(years, india[,1], main="Прирост ВВП", xlab='Годы',
 cor(india, use="pairwise.complete.obs")
 
 
-
 # Визуализация корреляционной матрицы
 library(corrplot)
 
 # Ellipses
-corrplot(cor(india, use="everything"),mar = c(2, 1, 3, 1), method = "ellipse",tl.cex = 0.6,add = FALSE) 
+corrplot(cor(india, use="everything"),mar = c(0, 0, 0, 0), method = "ellipse",tl.cex = 0.6,add = FALSE) 
 
 
 # Корреляция роста ВВП и прироста населения
-cor(india$GDP, india$Population)
-plot(india$GDP, india$Population, main='Зависимость популяции от ВВП',
+cor(india$ВВП, india$Прирост.популяции)
+plot(india$ВВП, india$Прирост.популяции, main='Зависимость популяции от ВВП',
      xlab="Прирост ВВП", ylab="Популяция")
 
 
 # Корреляция прироста населения на динамику безработицы
-cor(india$Population, india$Unemployment.basic, use='pairwise.complete.obs')
-plot(india$Population, india$Unemployment.basic, 
+cor(india$Прирост.популяции, india$Безработные.баз., use='pairwise.complete.obs')
+plot(india$Прирост.популяции, india$Безработные.баз., 
      main="Корреляция прироста населения на динамику безработицы",
      xlab="Популяция", ylab="Безработица")
 
 # Корреляция расходов на медицину на увеличение продолжительности жизни
-cor(india$Government.health, india$Life.expectancy, use="pairwise.complete.obs")
-plot(india$Government.health, india$Life.expectancy, 
+cor(india$Расходы.на.мед., india$Продол..жизни, use="pairwise.complete.obs")
+plot(india$Расходы.на.мед., india$Продол..жизни, 
      main="Корреляция расходов на медицину на увеличение продолжительности жизни",
      xlab='Расходы на медицину', ylab="Продолжительность жизни")
 
 # Корреляция расходов на медицину на смертность
-cor(india$Government.health, india$Death.rate, use="pairwise.complete.obs")
-plot(india$Government.health, india$Death.rate,
+cor(india$Расходы.на.мед., india$Смертность, use="pairwise.complete.obs")
+plot(india$Расходы.на.мед., india$Смертность,
      main="Корреляция расходов на медицину на смертность",
      xlab="Расходы на медицину", ylab="Смертность")
 
 
 library(car)
-scatterplotMatrix(india[,c(1,4,7,11,12)], spread=FALSE, lty.smooth=4)
+scatterplotMatrix(india[,c(1,4,8,11,12)], spread=FALSE, lty.smooth=4)
 
-model <- lm(india$Life.expectancy ~ india$GDP + I(india$GDP^2), india)
+# Полиномиальная регрессионная модель зависимости продолжительности жизни от ВВП
+model <- lm(india$Продол..жизни ~ india$ВВП + I(india$ВВП^2), india)
 model
 summary(model)
 
-plot(india$Life.expectancy ~ india$GDP)
-abline(model)
+plot(india$Продол..жизни ~ india$ВВП)
 
-lines(india$GDP, fitted(model))
+#График полиномиальной регрессии
+lines(india$ВВП, fitted(model))
 
 
 
