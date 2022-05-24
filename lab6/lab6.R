@@ -1,4 +1,5 @@
 library("xlsx")
+library(stringr)
 
 airplan_crushes <- read.csv('C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab6/Airplane_Crashes.csv', sep = ",") # Считали базу данных
 
@@ -18,11 +19,34 @@ airplan_crushes <- airplan_crushes[rowSums(is.na(airplan_crushes[,])) == 0,]
 
 airplan_crushes <- airplan_crushes[800:944,]
 
-# Стандартизация переменных
-airplane_N <- airplan_crushes[,c(10,11,12)]
+# Оставили первые слова из названия самолетов
+#
+# airplane <-str_extract(airplan_crushes[,7],"^\\w+")
+# air <- factor(airplane, labels = c(1:39))
+# airplan_crushes <- cbind(airplan_crushes, as.numeric(air))
+
+# Время
+time <- gsub(":","",airplan_crushes[,2])
+time <- as.numeric(gsub("(^|[^0-9])0+", "\\1", time, perl = TRUE))
+airplan_crushes[,2] <- time
+
+airplan_crushes[airplan_crushes == ""] <- NA # Пустые значение, сделали NA
+
+
+# Удалим строки, где есть пустые значения
+airplan_crushes <- airplan_crushes[rowSums(is.na(airplan_crushes[,])) == 0,]
+
+# Нормализация переменных
+airplane_N <- airplan_crushes[,c(2,10,11,12)]
 
 maxs <- apply(airplane_N, 2, max) # Максимальное значение
 mins <- apply(airplane_N, 2, min) # Минимальное значение
+
+airplane_N[airplane_N == ""] <- NA # Пустые значение, сделали NA
+
+
+# Удалим строки, где есть пустые значения
+airplane_N <- airplane_N[rowSums(is.na(airplane_N[,])) == 0,]
 
 airplane_N <- scale(airplane_N, center = mins, scale = maxs - mins)
 
@@ -48,41 +72,44 @@ airplan_crushes[groups==1, 7]
 airplan_crushes[groups==2, 7]
 airplan_crushes[groups==3, 7]
 
+
 #par(mar = c(4, 5, 6, 4))
 # Вычисляем среднее значение показателей в каждом кластере
 #  в 1-ом кластере
-g1<-colMeans(airplan_crushes[groups==1,10:12])
+g1<-colMeans(airplan_crushes[groups==1,c(2,10,11,12)])
 #  во 2-ом кластере
-g2<-colMeans(airplan_crushes[groups==2,10:12])
+g2<-colMeans(airplan_crushes[groups==2,c(2,10,11,12)])
 #  в 3-ем кластере
-g3<-colMeans(airplan_crushes[groups==3,10:12])
+g3<-colMeans(airplan_crushes[groups==3,c(2,10,11,12)])
+
 
 # Построение столбчатой диаграммы
 df <- data.frame(g1,g2,g3)
-rownames(df) <- names_cols_airplan_crushes[10:12]
+rownames(df) <- c("Время", "Количество на борту", "Умерло на борту", "Умерло не на борту")
+# colnames(df) <- c("Количество людей на борту больше 20", "Количество людей на борту до 20", "Большое количество жертв при приземление")
 
-barplot(data.matrix(df), main="Группы самолетов", col=rainbow(3), ylim = c(0,150), beside = TRUE)
-legend("topright", names_cols_airplan_crushes[10:12], col=rainbow(3), lwd=5, bty = "n",  y.intersp = 0.8, text.width = 6)
+barplot(data.matrix(df), main="Группы самолетов", col=rainbow(4), ylim = c(0,2400), beside = TRUE)
+legend("topright", c("Время", "Количество на борту", "Умерло на борту", "Умерло не на борту"),
+       col=rainbow(4), lwd=5, bty = "n",  y.intersp = 0.8, text.width = 6)
 
 # Каменная осыпь
-plot(1:144, clust.airplan_crushes$height, type='b', main = "Диаграмма каменная осыпь") 
+plot(1:143, clust.airplan_crushes$height, type='b', main = "Диаграмма каменная осыпь") 
 
 library(lattice)
 
 # Двумерные диаграммы рассеяния
-# Зависимость мощности двигателя от расхода
 xyplot(airplan_crushes[,10] ~ airplan_crushes[,11], airplan_crushes, main='Зависимость количества людей на борту от летальных случаев на борту',
        xlab='Смертельные случаи на борту', ylab='Находились на борту',  auto.key = TRUE, groups = groups)
 
-grou <- c("1","2","3")
-xyplot(
-  airplan_crushes$`Находилось на борту` ~ airplan_crushes$`Cмертельные случаи на борту` | groups, 
-  layout = c(3, 1),               # panel with ncol = 3 and nrow = 1
-  group = groups, data = airplan_crushes,
-  type = c("p", "smooth"),        # Show points and smoothed line
-  scales = "free"                 # Make panels axis scales independent
-)
+# Построим боксплот
+boxplot(airplan_crushes[,2] ~ groups, data = iris, ylab = "Время крушения", frame = FALSE, col = "lightgray")
 
+library("scatterplot3d")
+colors <- c("#999999", "#E69F00", "#56B4E9")
+colors <- colors[as.numeric(groups)]
 
-
+scatterplot3d(airplan_crushes[,c(2,10,11)], pch = 16, color=colors)
+legend("top", legend = c("Утреннее крушение ", "Пассажирские", "Вечернее крушение"),
+       col =  c("#999999", "#E69F00", "#56B4E9"), 
+       pch = c(16, 17, 18))
 
