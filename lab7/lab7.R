@@ -5,77 +5,80 @@ olympics <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/B
                      sep = ",", header = TRUE, dec = ',')
 
 # Спортсмены по гимнастике
-gymnastics_athlets <- subset(olympics, Sport == 'Gymnastics')
+gymnastics_man <- subset(olympics, Sport == 'Gymnastics')
 
 
 # Удалим строки, где есть пустые значения в весе
-gymnastics_athlets[gymnastics_athlets == ""] <- NA # Пустые значение, сделали NA
-gymnastics_athlets <- gymnastics_athlets[rowSums(is.na(gymnastics_athlets[,1:6])) == 0,]
+gymnastics_man[gymnastics_man == ""] <- NA # Пустые значение, сделали NA
+gymnastics_man <- gymnastics_man[rowSums(is.na(gymnastics_man[,1:6])) == 0,]
 
 # Убрали повторяющиеся строки со спортсменами
-gymnastics_athlets <- gymnastics_athlets %>% group_by(ID) %>% filter (! duplicated(ID))
+gymnastics_man <- gymnastics_man %>% group_by(ID) %>% filter (! duplicated(ID))
 
 # Выбрали мужчин
-gymnastics_athlets_man <- gymnastics_athlets[gymnastics_athlets$Sex == 'M',]
+gymnastics_man <- gymnastics_man[gymnastics_man$Sex == 'M',]
 
 # Вес спортсменов
-weight <- as.numeric(gymnastics_athlets_man$Weight)
+weight_gymnastics_man <- as.numeric(gymnastics_man$Weight)
 
 # Гистограмма веса
-hist(weight, main='Вес спорсменов',
+hist(weight_gymnastics_man, main='Вес спорсменов',
      xlab='Вес', ylab='Частота',xlim = c(40,90))
 
 # Проверка выборки на нормальность распределения с помощью Квантильно-квантильного графика
 # (показывает распределение данных относительно ожидаемого нормального распределения)
-qqnorm(weight)
-qqline(weight, col='blue', lwd = 5)
+qqnorm(weight_gymnastics_man)
+qqline(weight_gymnastics_man, col='blue', lwd = 5)
 
 # Доверительные интервалы
 library(car)
-qqPlot(weight)
+qqPlot(weight_gymnastics_man)
 
-# Тест Стьюдента
-t.test(weight, mu=65)
+# Тест Стьюдента, т.к. распределение нормальное
+t.test(weight_gymnastics_man, mu=63.2)
 
 # Тест Уилкоксона
-wilcox.test(weight, mu=65, conf.int = TRUE)
+wilcox.test(weight_gymnastics_man, mu=63, conf.int = TRUE)
 
 # Тест Шапиро-Уилкса для проверки на нормальность
-shapiro.test(weight)
+shapiro.test(weight_gymnastics_man[1:4999])
 
 #-------------------------------------------------------------------------------
 
-# Выборка гимнастов и атлетов
-gymnastics_athletics_men <- subset(olympics, Sex == 'M' & (Sport == 'Gymnastics' | Sport == 'Athletics'))
+# Выборка  атлетов
+athletics_man <- subset(olympics, Sex == 'M' & Sport == 'Athletics')
+
 
 # Удалим строки, где есть пустые значения в весе
-gymnastics_athletics_men[gymnastics_athletics_men == ""] <- NA # Пустые значение, сделали NA
-gymnastics_athletics_men <- gymnastics_athletics_men[rowSums(is.na(gymnastics_athletics_men[,1:6])) == 0,]
+athletics_man[athletics_man == ""] <- NA # Пустые значение, сделали NA
+athletics_man <- athletics_man[rowSums(is.na(athletics_man[,1:6])) == 0,]
 
 # Убрали повторяющиеся строки со спортсменами
-gymnastics_athletics_men <- gymnastics_athletics_men %>% group_by(ID) %>% filter (! duplicated(ID))
+athletics_man <- athletics_man %>% group_by(ID) %>% filter (! duplicated(ID))
 
-weight_gymnastics_athletics_men <- as.numeric(gymnastics_athletics_men$Weight)
+weight_athletics_man <- as.numeric(athletics_man$Weight)
 
 # Гистограмма веса
-hist(weight_gymnastics_athletics_men, main='Гистограмма веса гимнастов и атлетов', xlab='Вес', xlim = c(40,150), ylim = c(0,5000))
+hist(weight_gymnastics_man, main='Гистограмма веса гимнастов', xlab='Вес', xlim = c(40,150), ylim = c(0,600))
+hist(weight_athletics_man, main='Гистограмма веса атлетов', xlab='Вес', xlim = c(40,150), ylim = c(0,5000))
 
 # Проверка на нормальность
-qqPlot(weight)
+qqPlot(weight_gymnastics_man)
+qqPlot(weight_athletics_man)
 
-# Выбрали вес по отдельности
-gymnastics_weight <- as.numeric(subset(gymnastics_athletics_men, Sport == 'Gymnastics')$Weight)
-athletics_weight <- as.numeric(subset(gymnastics_athletics_men, Sport == 'Athletics')$Weight)
 
 # Среднее
-mean(gymnastics_weight, na.rm=TRUE)
-mean(athletics_weight, na.rm = TRUE)
+mean(weight_athletics_man, na.rm=TRUE)
+mean(weight_gymnastics_man, na.rm = TRUE)
+
+# Объединяем
+gymnastics_athletics_man <- rbind(gymnastics_man, athletics_man)
 
 # Тест на равенство дисперсий
-bartlett.test(as.numeric(gymnastics_athletics_men$Weight) ~ gymnastics_athletics_men$Sport, data=gymnastics_athletics_men)
+bartlett.test(as.numeric(gymnastics_athletics_man$Weight) ~ gymnastics_athletics_man$Sport, data=gymnastics_athletics_man)
 
 # Проверка, различаются ли выбранные средние значения с помощью теста Уэлча
-t.test(as.numeric(gymnastics_athletics_men$Weight) ~ gymnastics_athletics_men$Sport)
+t.test(as.numeric(gymnastics_athletics_man$Weight) ~ gymnastics_athletics_man$Sport)
 
 # Проверка, при условии, что дисперсии равны
-t.test(as.numeric(gymnastics_athletics_men$Weight) ~ gymnastics_athletics_men$Sport, paired = FALSE, var.equal = TRUE)
+t.test(as.numeric(gymnastics_athletics_man$Weight) ~ gymnastics_athletics_man$Sport, paired = FALSE, var.equal = TRUE)
