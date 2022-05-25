@@ -1,4 +1,4 @@
-install.packages("igraph")
-install.packages("network")
-install.packages("sna")
-install.packages("ndtv")
+library("igraph")
+library("network")
+library("sna")
+library("ndtv")
