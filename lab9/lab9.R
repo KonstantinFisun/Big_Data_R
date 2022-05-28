@@ -85,3 +85,29 @@ are.connected(g, V(g)[1], V(g)[3])
 
 # Список ребер в графеб.
 get.edgelist(g)
+
+#===============================================================================
+# Импорт-экспорт графов
+
+# Загрузить из текстового файла по списку вершин:
+g <- read.graph("./graph.txt", format="edgelist")
+
+# Создать граф из Базы Данных
+advice_data_frame <- read.table('http://sna.stanford.edu/sna_R_labs/data/Krack-High-Tec-edgelist-Advice.txt')
+g <- graph.data.frame(advice_data_frame)
+
+# Экспорт графа
+write.graph(g, file='my_graph.txt', format="edgelist")
+
+# Визуализация Erdos-Renyi
+er_graph<-erdos.renyi.game(100,2/100)
+plot(er_graph,vertex.label=NA,vertex.size=3)
+
+# Визуализация Watts Strogatz
+ws_graph<-watts.strogatz.game(1,100,4,0.05)
+plot(ws_graph,layout=layout.circle,vertex.label=NA,vertex.size=3)
+
+# Визуализация Barabasi
+ba_graph<-barabasi.game(100)
+plot(ba_graph,vertex.label=NA,vertex.size=3)
+
