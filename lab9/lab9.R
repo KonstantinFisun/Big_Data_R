@@ -111,3 +111,24 @@ plot(ws_graph,layout=layout.circle,vertex.label=NA,vertex.size=3)
 ba_graph<-barabasi.game(100)
 plot(ba_graph,vertex.label=NA,vertex.size=3)
 
+#===============================================================================
+# Функции размещения графов
+g <- make_ring(10) + make_full_graph(5)
+
+# Размещение в виде звезды
+coords <- layout_(g, as_star())
+plot(g, layout = coords)
+
+# Размещение в виде круга
+coords <- layout_(g, in_circle())
+plot(g, layout = coords)
+
+# Размещение в виде дерева
+coords <- layout_(g, as_tree())
+plot(g, layout = coords)
+
+# Алгоритм силового размещения Камада-Каваи
+g<-graph.lattice(length=100,dim=1,nei=5, circular = TRUE)
+plot(g,vertex.size=2,vertex.label=NA,layout=layout.kamada.kawai)
+
+
