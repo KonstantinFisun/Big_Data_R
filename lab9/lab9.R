@@ -131,4 +131,33 @@ plot(g, layout = coords)
 g<-graph.lattice(length=100,dim=1,nei=5, circular = TRUE)
 plot(g,vertex.size=2,vertex.label=NA,layout=layout.kamada.kawai)
 
+#===============================================================================
+# Измерение графов 
+plot(g1)
 
+# Диаметр
+diameter(g1)
+
+# Все пути
+g1.all_simple<-all_simple_paths(g1, 2, 6) 
+g1.all_simple
+
+# Все короткие пути к другим вершинам
+all_shortest_paths(g1, 1, to = V(g1), mode = c("out", "all", "in"),weights = NULL)
+
+# Степеь каждой вершины
+deg <- degree(g1, mode="all")
+
+#===============================================================================
+# Задание 1
+# 1.	Создайте кольцевой граф  g со случайным числом вершин G_size 
+graph<-graph.ring(n=sample(c(26:124),1))
+
+ # Количество вершин
+vcount(graph)
+# Количество ребер
+ecount(graph)
+
+graph[]
+
+plot(graph, main='Кольцевой граф', edge.arrow.size=.9,vertex.size=15)
