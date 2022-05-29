@@ -150,14 +150,32 @@ deg <- degree(g1, mode="all")
 
 #===============================================================================
 # Задание 1
-# 1.	Создайте кольцевой граф  g со случайным числом вершин G_size 
-graph<-graph.ring(n=sample(c(26:124),1))
-
+# 1.	Создайте кольцевой граф  g со случайным числом вершин G_size  124
+G_size <- sample(c(26:30),1)
+graph<-graph.ring(n = G_size)
+coords <- layout_(g1, as_star())
  # Количество вершин
 vcount(graph)
 # Количество ребер
 ecount(graph)
 
+# Матрица смежности
 graph[]
 
 plot(graph, main='Кольцевой граф', edge.arrow.size=.9,vertex.size=15)
+
+# 2.	Создайте  граф g1 из  пустого графа с числом вершин G_size  желтого цвета. 
+g1<-graph.empty()+vertices(1:G_size,color="yellow") 
+g1[]
+plot(g1, main = "Пустой граф")
+
+# Добавьте ему 128 случайных ребер, сформированных из вектора вершин, окрасьте ребра красным цветом, 
+g1 <- g1 + edges(sample(V(g1), 256, replace=TRUE), color="red")
+g1[]
+plot(g1, main = "Добавили красных ребер", layout = coords, edge.arrow.size=.2)
+
+# Добавьте графу g1 еще  16*10 случайных ребер, сформированных из вектора вершин, окрасьте ребра синим цветом
+g1 <- g1 + edges(sample(V(g1), 320, replace=TRUE), color="blue") 
+g1[]
+plot(g1, layout = coords, main="Добавили синих ребер", edge.arrow.size=.2)
+
