@@ -179,3 +179,21 @@ g1 <- g1 + edges(sample(V(g1), 320, replace=TRUE), color="blue")
 g1[]
 plot(g1, layout = coords, main="Добавили синих ребер", edge.arrow.size=.2)
 
+# 3.	Добавьте ребра между вершиной 55 и 52, 54 и 31, 31 и 24, 32 и 33, 23 и 29
+
+edges <- c(55,52, 54,31, 31,24, 32,33, 23,29)
+i <- 1
+while(i <= length(edges)){
+  if((edges[i] %in% V(g1)) && (edges[i+1] %in% V(g1)))
+    g1 <- g1 + edges(c(edges[i],edges[i+1]), color="black")
+    #add.edges(g1, c(edges[i],edges[i+1]),  color="black")
+  i <- i+1
+}
+plot(g1, layout = coords, main="Добавили черных ребер", edge.arrow.size=.2)
+
+# Выведите соседей N - й вершины
+neighbors(g1, V(g1)[16], mode = 1)
+incident(g1, V(g1)[16], mode=("all"))
+are_adjacent(g1, 26, 28)
+g1[]
+
