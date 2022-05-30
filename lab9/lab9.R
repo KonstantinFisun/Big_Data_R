@@ -218,3 +218,9 @@ V(g1)$alf
 plot(g1, main="Переименнованный граф", vertex.color="white", vertex.size=8, vertex.frame.color="yellow", vertex.label=alf[[1]][1:G_size])
 g1[]
 
+# Алгоритмы размещения
+plot(g1, layout=layout_as_tree, edge.arrow.size=.4, main='Дерево')
+
+plot(g1, layout=layout.kamada.kawai, edge.arrow.size=.4, main='Алгоритм Камада-Каваи')
+
+plot(g1, layout=layout.fruchterman.reingold, edge.arrow.size=.4, main='Алгоритм Фрюхтермана-Рейнгольда')
