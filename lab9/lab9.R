@@ -224,3 +224,16 @@ plot(g1, layout=layout_as_tree, edge.arrow.size=.4, main='Дерево')
 plot(g1, layout=layout.kamada.kawai, edge.arrow.size=.4, main='Алгоритм Камада-Каваи')
 
 plot(g1, layout=layout.fruchterman.reingold, edge.arrow.size=.4, main='Алгоритм Фрюхтермана-Рейнгольда')
+
+
+# Измерение диаметра графа 
+diameter(g1)
+
+# Список самых коротких путей  для каждой вершины
+
+all_simple_path_g1 <- list()
+for (i in 1:length(V(g1))) {
+  all_simple_path_g1 <- append(all_simple_path_g1, all_shortest_paths(g1, i, to = V(g1), mode = c("out", "all", "in"), weights = NULL))
+}
+all_simple_path_g1
+
