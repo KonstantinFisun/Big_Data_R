@@ -211,3 +211,10 @@ g1 <- g1 + vertices("New", color="pink") + edges(c(max_ver,"New"), replace=TRUE,
 
 plot(g1, layout=layout.circle, main="Добавили новую вершину", edge.arrow.size=.2)
 
+# Алфавит
+alf<-c(65:90,97:122,1040:1103)
+alf<-intToUtf8(alf)
+V(g1)$alf
+plot(g1, main="Переименнованный граф", vertex.color="white", vertex.size=8, vertex.frame.color="yellow", vertex.label=alf[[1]][1:G_size])
+g1[]
+
