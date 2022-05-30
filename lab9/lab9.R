@@ -151,31 +151,31 @@ deg <- degree(g1, mode="all")
 #===============================================================================
 # Задание 1
 # 1.	Создайте кольцевой граф  g со случайным числом вершин G_size  124
-G_size <- sample(c(26:30),1)
-graph<-graph.ring(n = G_size)
+G_size <- sample(c(26:27),1)
+g1<-graph.ring(n = G_size)
 coords <- layout_(g1, as_star())
  # Количество вершин
-vcount(graph)
+vcount(g1)
 # Количество ребер
-ecount(graph)
+ecount(g1)
 
 # Матрица смежности
-graph[]
+g1[]
 
-plot(graph, main='Кольцевой граф', edge.arrow.size=.9,vertex.size=15)
+plot(g1, main='Кольцевой граф', edge.arrow.size=.9,vertex.size=15)
 
 # 2.	Создайте  граф g1 из  пустого графа с числом вершин G_size  желтого цвета. 
 g1<-graph.empty()+vertices(1:G_size,color="yellow") 
 g1[]
 plot(g1, main = "Пустой граф")
 
-# Добавьте ему 128 случайных ребер, сформированных из вектора вершин, окрасьте ребра красным цветом, 
-g1 <- g1 + edges(sample(V(g1), 256, replace=TRUE), color="red")
+# Добавьте ему 8 случайных ребер, сформированных из вектора вершин, окрасьте ребра красным цветом, 
+g1 <- g1 + edges(sample(V(g1), 16, replace=TRUE), replace=TRUE, color="red")
 g1[]
 plot(g1, main = "Добавили красных ребер", layout = coords, edge.arrow.size=.2)
 
-# Добавьте графу g1 еще  16*10 случайных ребер, сформированных из вектора вершин, окрасьте ребра синим цветом
-g1 <- g1 + edges(sample(V(g1), 320, replace=TRUE), color="blue") 
+# Добавьте графу g1 еще  16 случайных ребер, сформированных из вектора вершин, окрасьте ребра синим цветом
+g1 <- g1 + edges(sample(V(g1), 32, replace=TRUE), replace=TRUE, color="blue") 
 g1[]
 plot(g1, layout = coords, main="Добавили синих ребер", edge.arrow.size=.2)
 
@@ -185,7 +185,7 @@ edges <- c(55,52, 54,31, 31,24, 32,33, 23,29)
 i <- 1
 while(i <= length(edges)){
   if((edges[i] %in% V(g1)) && (edges[i+1] %in% V(g1)))
-    g1 <- g1 + edges(c(edges[i],edges[i+1]), color="black")
+    g1 <- g1 + edges(c(edges[i],edges[i+1]), replace=TRUE, color="black")
     #add.edges(g1, c(edges[i],edges[i+1]),  color="black")
   i <- i+1
 }
@@ -196,4 +196,18 @@ neighbors(g1, V(g1)[16], mode = 1)
 incident(g1, V(g1)[16], mode=("all"))
 are_adjacent(g1, 26, 28)
 g1[]
+
+# 4. 4.	Добавьте еще одну вершину и подключите ее к той, которая имеет 
+# наибольшее количество связанных с ней узлов
+# Степень для каждой вершины
+deg<-igraph::degree(g1)
+deg
+# Первая максимальная 
+max_ver <- which(deg == max(deg))[[1]]
+incident(g1,V(g1)[max_ver], mode=c("all", "out", "in", "total"))
+
+# Добавляем новую вершину
+g1 <- g1 + vertices("New", color="pink") + edges(c(max_ver,"New"), replace=TRUE, color="green")
+
+plot(g1, layout=layout.circle, main="Добавили новую вершину", edge.arrow.size=.2)
 
