@@ -237,3 +237,9 @@ for (i in 1:length(V(g1))) {
 }
 all_simple_path_g1
 
+# Откалибровка величин вершин согласно их степеней
+# Степени вершин
+deg<-igraph::degree(g1)
+deg
+# Калибровка вершин, согласно их степеней
+plot(g1, vertex.size=deg*1.5, edge.arrow.size=.4, main='Калибровка вершин')
