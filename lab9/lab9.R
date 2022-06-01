@@ -243,3 +243,81 @@ deg<-igraph::degree(g1)
 deg
 # Калибровка вершин, согласно их степеней
 plot(g1, vertex.size=deg*1.5, edge.arrow.size=.4, main='Калибровка вершин')
+
+# Задание 2
+#	1.	Вводится N - количество домов и К - количество дорог. 
+# Дома пронумерованы от 1 до N. Каждая дорога определяется тройкой чисел - 
+# двумя номерами домов - концов дороги и длиной дороги. В каждом доме живет по одному человеку.
+# Найти точку - место встречи всех людей, от которой суммарное расстояние 
+# до всех домов будет минимальным. Указать номер дома.  
+# Примечание: длины дорог - положительные целые числа.
+
+# Создание графа
+graph <- list(s = c("a", "b"),
+              a = c("s", "b", "c", "d"),
+              b = c("s", "a", "c", "d"),
+              c = c("a", "b", "d", "e", "f"),
+              d = c("a", "b", "c", "e", "f"),
+              e = c("c", "d", "f", "z"),
+              f = c("c", "d", "e", "z"),
+              z = c("e", "f"))
+# Веса
+weights <- list(s = c(3, 5),
+                a = c(3, 3, 10, 11),
+                b = c(5, 3, 2, 3),
+                c = c(10, 2, 3, 7, 12),
+                d = c(11, 3, 3, 11, 2),
+                e = c(7, 11, 3, 2),
+                f = c(12, 2, 3, 2),
+                z = c(2, 2))
+
+G <- data.frame(stack(graph), weights = stack(weights)[[1]])
+set.seed(500)
+el <- as.matrix(stack(graph))
+g <- graph_from_edgelist(el)
+plot(g, edge.label = stack(weights)[[1]])
+
+# Функция нахождения длины путя
+path_length <- function(path) {
+  # Если путь равен НУЛЮ, вернем бесконечную длину
+  if (is.null(path)) return(Inf)
+  
+  # получить все последовательные узлы
+  pairs <- cbind(values = path[-length(path)], ind = path[-1])
+  
+  # объедините с помощью G и суммируем по весам
+  sum(merge(pairs, G)[ , "weights"])
+}
+
+# Алгоритм Деикстры
+find_shortest_path <- function(graph, start, end, path = c()) {
+  # если нет узлов, связанных с текущим узлом (= тупик), вернется значение NULL
+  if (is.null(graph[[start]])) return(NULL)
+  
+  # Добавляем следующий узел к пути 
+  path <- c(path, start)
+  
+  # Если достигли конца
+  if (start == end) return(path)
+  
+  # Инициализация пустого пути
+  shortest <- NULL
+  
+  # Цикл по всем узлам, связанным с текущим узлом
+  for (node in graph[[start]]) {
+    
+    # Продолжаем, только если связанный узел еще не находится в пути
+    if (!(node %in% path)) {
+      # Вызываем рекурсию с текущего узла
+      newpath <- find_shortest_path(graph, node, end, path)
+      
+      # Если новый путь короче, чем кратчайший, то новый путь кратчайший
+      if (path_length(newpath) < path_length(shortest))
+        shortest <- newpath
+    }
+  }
+  # Возвращаем кратчайший путь
+  shortest
+}
+
+path_length(find_shortest_path(graph, "s", "b"))
