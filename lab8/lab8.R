@@ -1,8 +1,6 @@
 input_table <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab8/Lab8_Data.csv", 
                         sep = ",", header = TRUE, dec = ',')
-# Описание
-definitions <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab8/Lab8_Definition and Source.csv", 
-                        sep = ",", header = TRUE, dec = ',')
+
 
 # Данные по Индии
 india <- subset(input_table, Country.Code == "IND")

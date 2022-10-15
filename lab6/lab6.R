@@ -50,6 +50,8 @@ airplane_N <- airplane_N[rowSums(is.na(airplane_N[,])) == 0,]
 
 airplane_N <- scale(airplane_N, center = mins, scale = maxs - mins)
 
+airplane_N
+
 # Матрица попарных расстояний 
 dist.airplan_crushes <- dist(airplane_N)
 

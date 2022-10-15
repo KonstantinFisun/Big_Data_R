@@ -151,7 +151,7 @@ deg <- degree(g1, mode="all")
 #===============================================================================
 # Задание 1
 # 1.	Создайте кольцевой граф  g со случайным числом вершин G_size  124
-G_size <- sample(c(26:27),1)
+G_size <- sample(c(26:124),1)
 g1<-graph.ring(n = G_size)
 coords <- layout_(g1, as_star())
  # Количество вершин
@@ -170,12 +170,12 @@ g1[]
 plot(g1, main = "Пустой граф")
 
 # Добавьте ему 8 случайных ребер, сформированных из вектора вершин, окрасьте ребра красным цветом, 
-g1 <- g1 + edges(sample(V(g1), 16, replace=TRUE), replace=TRUE, color="red")
+g1 <- g1 + edges(sample(V(g1), 128, replace=TRUE), replace=TRUE, color="red")
 g1[]
 plot(g1, main = "Добавили красных ребер", layout = coords, edge.arrow.size=.2)
 
 # Добавьте графу g1 еще  16 случайных ребер, сформированных из вектора вершин, окрасьте ребра синим цветом
-g1 <- g1 + edges(sample(V(g1), 32, replace=TRUE), replace=TRUE, color="blue") 
+g1 <- g1 + edges(sample(V(g1), 160, replace=TRUE), replace=TRUE, color="blue") 
 g1[]
 plot(g1, layout = coords, main="Добавили синих ребер", edge.arrow.size=.2)
 
@@ -214,16 +214,17 @@ plot(g1, layout=layout.circle, main="Добавили новую вершину"
 # Алфавит
 alf<-c(65:90,97:122,1040:1103)
 alf<-intToUtf8(alf)
-V(g1)$alf
-plot(g1, main="Переименнованный граф", vertex.color="white", vertex.size=8, vertex.frame.color="yellow", vertex.label=alf[[1]][1:G_size])
+alf <- strsplit(alf, "")[[1]]
+alf[1:G_size]
+plot(g1, layout=layout.circle,main="Переименнованный граф",edge.arrow.size=.2, vertex.color="white", vertex.size=8, vertex.frame.color="yellow", vertex.label=alf[1:G_size])
 g1[]
 
 # Алгоритмы размещения
 plot(g1, layout=layout_as_tree, edge.arrow.size=.4, main='Дерево')
 
-plot(g1, layout=layout.kamada.kawai, edge.arrow.size=.4, main='Алгоритм Камада-Каваи')
+plot(g1, layout=layout.kamada.kawai, vertex.size=2,edge.arrow.size=.4, main='Алгоритм Камада-Каваи')
 
-plot(g1, layout=layout.fruchterman.reingold, edge.arrow.size=.4, main='Алгоритм Фрюхтермана-Рейнгольда')
+plot(g1, layout=layout.fruchterman.reingold, vertex.size=2,edge.arrow.size=.4, main='Алгоритм Фрюхтермана-Рейнгольда')
 
 
 # Измерение диаметра графа 
@@ -332,7 +333,6 @@ for (i in 1:8){
     if(i != j){
       sum <- sum + as.integer(path_length(find_shortest_path(graph, as.character(i), as.character(j))))
     }
-    
   }
   sum_path <- append(sum_path, sum)
   if(sum_shortest_path > as.integer(sum)){
@@ -341,5 +341,5 @@ for (i in 1:8){
   }
 }
 
-
+sum_path
 home

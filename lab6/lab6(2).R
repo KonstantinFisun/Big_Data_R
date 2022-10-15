@@ -82,7 +82,7 @@ naive_airplan_crushes$tables
 # Ядерные функции плотности условной вероятности
 layout(matrix(c(1,2,3,4), 2, 2, byrow = TRUE)) 
 plot(naive_airplan_crushes,legendplot=FALSE)
-legend("top", legend=c("g1", "g2", "g3"),lty=1:3, cex=1)
+legend("top", legend=c("g1", "g2", "g3"),col = c("red","green","blue"), lty=1:3, cex=1)
 
 # Классификация по вероятностным данным
 predict <- predict(naive_airplan_crushes, airplane_N[,-6])$class
@@ -92,7 +92,7 @@ table(Группа = airplane_N$groups_f, Прогноз = predict)
 
 # Вычисление точности классификации по формуле Байеса
 accuracy_bayes <- mean(predict == airplane_N$groups_f)
-accuracy_bayes
+
 
 paste("Точность=", round(100*accuracy_bayes, 2), "%", sep = "")
 

@@ -1,8 +1,45 @@
 library(dplyr)
 
 # Считывание олимпийцев
-olympics <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab7/athlete_events.csv", 
-                     sep = ",", header = TRUE, dec = ',')
+horses <- read.csv(file = "C:/Users/kosty/OneDrive/Документы/GitHub/Big_Data_R/lab7/HorsePrices.csv", 
+                     sep = ",", header = TRUE)
+
+horses[horses == ""] <- NA # Пустые значение, сделали NA
+# Удалим строки, где есть пустые значения
+horses <- horses[rowSums(is.na(horses[,])) == 0,]
+
+mean <- apply(horses[,3:5], 2, mean) # Среднее значение
+
+hor <- horses[horses$Price > mean[1] && horses$Age < mean[2] && horses$Height < mean[3],]
+
+cor(horses$Price, horses$Height, method = "spearman")
+cor.test(horses$Price, horses$Height, method = "spearman")
+
+cor(horses$Price, horses$Height, use='pairwise.complete.obs')
+plot(horses$Price, horses$Height, 
+     main="Корреляция прироста цены на рост лошади",
+     xlab="цена", ylab="рост")
+
+cor(horses$Price, horses$Age, use='pairwise.complete.obs')
+plot(horses$Price, horses$Age, 
+     main="Корреляция прироста цены на возраст лошади",
+     xlab="цена", ylab="возраст")
+
+# Гистограмма возраста
+hist(horses$Age, main='Гистограмма возраста лошадей',
+     xlab='Возраст', ylab='Частота')
+
+#Проверим на нормальность
+# Проверка выборки на нормальность распределения с помощью Квантильно-квантильного графика
+# (показывает распределение данных относительно ожидаемого нормального распределения)
+qqnorm(horses$Age)
+qqline(horses$Age, col='blue', lwd = 5)
+
+# Распределение нормальное, проведем тест Стьюдента
+# Тест Стьюдента, т.к. распределение нормальное
+# Проверим, что средний вес равен 7
+t.test(horses$Age, mu=7)
+# Т.к p-value > 0.05 гипотезу принимаем
 
 # Спортсмены по гимнастике
 gymnastics_man <- subset(olympics, Sport == 'Gymnastics')
